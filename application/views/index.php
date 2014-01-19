@@ -162,76 +162,28 @@
 	</div>
 	<div class="slide" id="slide3" data-slide="3" data-stellar-background-ratio="0.5">
 		<h1>-stores-</h1>
-		
-			<div class="store-box" id="first-child">
-				<div class="store-box-wrapper">
-					<img src="<?php echo base_url();?>asset/images/Stores-11.png">
-					<h2 class="title">Wakai Shoes</h2>
-					<label class="fashion">Fashion</label>
-					<hr/>
-					<div class="box-detail">
-						<div id="discount"><label>10%</label></div>
-						<label class="lbl-detail">Available Discount</label>
+			<?php 
+			// print_r($stores);
+			foreach ($stores as $store):?>
+				<div class="store-box">
+					<div class="store-box-wrapper">
+						<img src="<?php echo base_url();?>asset/images/Stores-11.png">
+						<h2 class="title"><?php echo $store->store_name;?></h2>
+						<label class="fashion"><?php echo $store->store_type;?></label>
+						<hr/>
+						<div class="box-detail">
+							<div id="discount"><label><?php echo $store->disc;?></label></div>
+							<label class="lbl-detail">Available Discount</label>
+						</div>
+						<div class="box-detail">
+							<div id="discount"><label><?php echo $store->egg;?></label></div>
+							<label class="lbl-detail">Egg Per Visit</label>
+						</div>
+						<button class="see-more-info">See More Information</button>
 					</div>
-					<div class="box-detail">
-						<div id="discount"><label>5</label></div>
-						<label class="lbl-detail">Egg Per Visit</label>
-					</div>
-					<button class="see-more-info">See More Information</button>
 				</div>
-			</div>
-			<div class="store-box">
-				<div class="store-box-wrapper">
-					<img src="<?php echo base_url();?>asset/images/Stores-12.png">
-					<h2 class="title">Pane Del Giorno</h2>
-					<label class="fashion">Fashion</label>
-					<hr/>
-					<div class="box-detail">
-						<div id="discount"><label>12%</label></div>
-						<label class="lbl-detail">Available Discount</label>
-					</div>
-					<div class="box-detail">
-						<div id="discount"><label>3</label></div>
-						<label class="lbl-detail">Egg Per Visit</label>
-					</div>
-					<button class="see-more-info">See More Information</button>
-				</div>
-			</div>
-			<div class="store-box">
-				<div class="store-box-wrapper">
-					<img src="<?php echo base_url();?>asset/images/Stores-13.png">
-					<h2 class="title">Siete Cafe</h2>
-					<label class="fashion">Fashion</label>
-					<hr/>
-					<div class="box-detail">
-						<div id="discount"><label>20%</label></div>
-						<label class="lbl-detail">Available Discount</label>
-					</div>
-					<div class="box-detail">
-						<div id="discount"><label>1</label></div>
-						<label class="lbl-detail">Egg Per Visit</label>
-					</div>
-					<button class="see-more-info">See More Information</button>
-				</div>
-			</div>
-			<div class="store-box">
-				<div class="store-box-wrapper">
-					<img src="<?php echo base_url();?>asset/images/Stores-14.png">
-					<h2 class="title">Siete Cafe</h2>
-					<label class="fashion">Fashion</label>
-					<hr/>
-					<div class="box-detail">
-						<div id="discount"><label>20%</label></div>
-						<label class="lbl-detail">Available Discount</label>
-					</div>
-					<div class="box-detail">
-						<div id="discount"><label>8</label></div>
-						<label class="lbl-detail">Egg Per Visit</label>
-					</div>
-					<button class="see-more-info">See More Information</button>
-				</div>
-			</div>
-			<div id="i-box"><button id="stores-see-more">See More</button></div>
+			<?php endforeach;?>		
+						<div id="i-box"><button id="stores-see-more">See More</button></div>
 		
 	</div>
 	<div class="slide" id="slide4" data-slide="4" data-stellar-background-ratio="0.5">
@@ -329,10 +281,10 @@
 				<div class="clear"></div>
 			</div>
 			<div id="contact-right">
-				<form id="fm-contact">
+				<form id="fm-contact" method="post" action="<?php echo base_url();?>contact/save">
 					<input type="text" name="name" placeholder="Name" class="contact-in" id="contact-inp">
-					<input type="text" name="name" placeholder="Email Address" class="contact-in" id="contact-inp">
-					<textarea Placeholder="Message" class="contact-in" id="contact-txtarea"></textarea>
+					<input type="text" name="email" placeholder="Email Address" class="contact-in" id="contact-inp">
+					<textarea name="message" Placeholder="Message" class="contact-in" id="contact-txtarea"></textarea>
 					<input type="submit" value="Submit" id="contact-submit"> 
 				</form>
 				<a class="back" data-slide="1" title=""><img src="<?php echo base_url();?>asset/images/Back To Top-17.png" id="backtotop"></a>
