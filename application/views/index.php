@@ -163,7 +163,7 @@
 	<div class="slide" id="slide3" data-slide="3" data-stellar-background-ratio="0.5">
 		<h1>-stores-</h1>
 			<?php 
-			// print_r($stores);
+			print_r($stores);
 			foreach ($stores as $store):?>
 				<div class="store-box">
 					<div class="store-box-wrapper">
