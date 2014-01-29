@@ -3,10 +3,10 @@
 	<title>Vertesac</title>
 	<link rel='stylesheet' type='text/css' href='<?php echo base_url();?>asset/logged-in/css/style.css'>
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/logged-in/css/style_slideshow.css" />
+	<script type="text/javascript" src="<?php echo base_url();?>asset/logged-in/js/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>asset/logged-in/js/modernizr.custom.28468.js"></script>
 	<link type="text/css" href="<?php echo base_url();?>asset/logged-in/js/jquery.datepick.css" rel="stylesheet">
 	<script type="text/javascript" src="<?php echo base_url();?>asset/logged-in/js/jquery.datepick.js"></script>
-	<script type="text/javascript" src="<?php echo base_url();?>asset/logged-in/js/jquery.min.js"></script>
 	<script>
 	$(document).ready( function() {
 		$('#login-popup').click(function(){
@@ -72,13 +72,12 @@
 				<a href='logout.php' class='link' style='font-size: 12px; color:#fff;  margin-top: 20px; margin-left: 50px; position:absolute; '>Logout</a>
 			</div>
 			<ul class="top-menu">
-				<li class="border"><a href=profile><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-09.png" alt="Vertesac Website_Merchant Profile-09" class="menu-merchant-img"><br><p class="menu-merchant-title">Profile</p></a></li>
+				<li class="border"><a href="<?php echo base_url('store')?>"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-09.png" alt="Vertesac Website_Merchant Profile-09" class="menu-merchant-img"><br><p class="menu-merchant-title">Profile</p></a></li>
 				<li class="border"><a href=promo><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-10.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Promo</p></a></li>
 				<li class="border"><a href=inventory><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-11.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Inventory</p></a></li>
 				<li class="border"><a href=galeri><img src="<?php echo base_url();?>asset/logged-in/images/pt.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Photo</p></a></li>
 				<li class="border"><a href=member><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-13.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Member</p></a></li>
 			</ul>
 		</div>
-		<div style="clear:both"></div>
-		<div id="content">
-			
+		
+

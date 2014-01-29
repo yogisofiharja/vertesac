@@ -779,6 +779,108 @@ body{
 				-moz-border-top-right-radius:4px;
 				border-top-right-radius:4px;
 			}
+
+		#select-provinsi{
+			margin-left:30px;
+		}
+		.select-provinsi {
+				width: 200px;
+				height:30px;
+				margin: 0;
+				-webkit-border-radius:4px;
+				-moz-border-radius:4px;
+				border-radius:4px;
+				background: #CBCBCB;
+				color:#666666;
+				border:none;
+				outline:none;
+				display: inline-block;
+				-webkit-appearance:none;
+				-moz-appearance:none;
+				appearance:none;
+				cursor:pointer;
+				
+				margin-top:10px;
+				margin-bottom:10px;
+				text-indent:10px;
+			}
+
+			.provinsi {position:relative}
+			.provinsi:after {
+				content:'>';
+				font:26px "Consolas", monospace;
+				color:#aaa;
+				-webkit-transform:rotate(90deg);
+				-moz-transform:rotate(90deg);
+				-ms-transform:rotate(90deg);
+				transform:rotate(90deg);
+				right:10px; top:-5px;
+				position:absolute;
+				pointer-events:none;
+			}
+			.provinsi:before {
+				content:'';
+				right:4px; top:-5px;
+				width:30px; height:30px;
+				background:#666666;
+				position:absolute;
+				pointer-events:none;
+				display:block;
+				-webkit-border-top-right-radius:4px;
+				-moz-border-top-right-radius:4px;
+				border-top-right-radius:4px;
+			}
+
+			#select-kabkota{
+			margin-left:30px;
+		}
+		.select-kabkota {
+				width: 200px;
+				height:30px;
+				margin: 0;
+				-webkit-border-radius:4px;
+				-moz-border-radius:4px;
+				border-radius:4px;
+				background: #CBCBCB;
+				color:#666666;
+				border:none;
+				outline:none;
+				display: inline-block;
+				-webkit-appearance:none;
+				-moz-appearance:none;
+				appearance:none;
+				cursor:pointer;
+				
+				margin-top:10px;
+				margin-bottom:10px;
+				text-indent:10px;
+			}
+
+			.kabkota {position:relative}
+			.kabkota:after {
+				content:'>';
+				font:26px "Consolas", monospace;
+				color:#aaa;
+				-webkit-transform:rotate(90deg);
+				-moz-transform:rotate(90deg);
+				-ms-transform:rotate(90deg);
+				transform:rotate(90deg);
+				right:10px; top:-5px;
+				position:absolute;
+				pointer-events:none;
+			}
+			.kabkota:before {
+				content:'';
+				right:4px; top:-5px;
+				width:30px; height:30px;
+				background:#666666;
+				position:absolute;
+				pointer-events:none;
+				display:block;
+				-webkit-border-top-right-radius:4px;
+				-moz-border-top-right-radius:4px;
+				border-top-right-radius:4px;
+			}
 	
 	#content #profile-setting-right .btn-simpan-profile{
 		width: 100px;
@@ -787,7 +889,7 @@ body{
 		font-family:latoBold;
 		font-size: 16px;
 		color: #333333;
-		background-image:url('images/Vertesac Website_Merchant Profile General Setting-009.png');
+		/*background-image:url('../images/Vertesac Website_Merchant Profile General Setting-009.png');*/
 		background-repeat:no-repeat;
 		background-color:#F8D400;
 		border-radius: 4px;

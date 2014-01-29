@@ -39,7 +39,7 @@
 */
 
 $route['default_controller'] = "welcome";
-$route['store'] = "store/store";
+$route['store'] = "store/profile";
 $route['404_override'] = '';
 
 
