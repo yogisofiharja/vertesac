@@ -586,7 +586,7 @@ body{
 		color:#fff;
 		border:none;
 		margin-top: 10px auto;
-		margin-left: 40%;
+		margin-left: 43%;
 		margin-bottom: 10px;
 		background: #9BC41E;
 		border-radius: 4px;
@@ -609,8 +609,7 @@ body{
 		
 	}
 	#content #data-product #box-product{
-		width: 150px;
-		
+		width: 100%;
 		margin-left: 25px;
 		margin-bottom: 10px;
 		float:left;
@@ -620,7 +619,7 @@ body{
 		width: 146px;
 		height: 136px;
 		background: #E5E5E5;
-		
+		float:left;		
 	}
 	#vis-btn-promo{
 		width: 130px;
@@ -902,7 +901,7 @@ body{
 	/* view Promo*/
 	
 	#content #data-product #detail-promo{
-		width: 560px;
+		width: 670px;
 		float:left;
 		margin-left:20px;
 		
@@ -1376,6 +1375,7 @@ body{
 		width: 450px;
 		float:left;
 		font-family:latoRegular;
+		text-align: left;
 	}
 	.promo-deskription{
 		font-family: latoRegular;

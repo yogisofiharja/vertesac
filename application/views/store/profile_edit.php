@@ -1,6 +1,9 @@
 <?php
 include 'header.php';
-print_r($profile);
+/*print_r($profile);
+print "<pre>";
+print_r($store_socmed);
+print "</pre>";*/
 ?>
 <script type="text/javascript">
 function kabkota(){
@@ -12,7 +15,8 @@ function kabkota(){
 		success: function(msg){
 			$element = $('#select-kabkota'); 
 			$element.empty();
-			$element.append($("<option></option>").attr("value",'0').text('Kabupaten'));
+			$element.append($("<option></option>").attr("value",'<?php echo $profile[0]->id_kabkota;?>').text('<?php echo $profile[0]->kabupaten;?>'));
+			$element.append($("<option></option>").attr("value",'0').text('------------------'));
 			$.each(msg,function(i,kabupaten) { 
 				$element.append($("<option></option>").attr("value",kabupaten.id_kabkota).text(kabupaten.nama));
 			});
@@ -38,7 +42,7 @@ function kabkota(){
 			<div id="box-img-profile">
 				<?php if(!empty($profile[0]->photo)){
 					?>
-					<img src="<?php echo base_url();?>asset/photo/store/<?php echo $profile[0]->photo;?>" /> 
+					<img src="<?php echo base_url();?>asset/photo/store/profile/<?php echo $profile[0]->photo;?>" /> 
 					<?php
 				}else{
 					?>
@@ -52,15 +56,9 @@ function kabkota(){
 			</div>
 			<?php
 			foreach ($store_socmed as $socmed) {
-				if($socmed->socme_id == 1){
-					?>
-					<input type="text" name="fb" value="<?php echo $socmed->url;?>" class="input-sosmed" style="background-image:url('<?php echo base_url();?>asset/logged-in/images/social icons/<?php echo $socmed->icon;?>'); background-repeat:no-repeat ; background-size:23px 23px; background-position:5% 75%; ">
-					<?php
-				}else{
-					?>
-					<input type="text" name="tw" value="<?php echo $socmed->url;?>" class="input-sosmed" style="background-image:url('<?php echo base_url();?>asset/logged-in/images/social icons/<?php echo $socmed->icon;?>'); background-repeat:no-repeat ; background-size:23px 23px; background-position:5% 75%; ">
-					<?php
-				}
+				?>
+				<input type="text" name="socmed[<?php echo $socmed->socme_id;?>]" value="<?php echo $socmed->url;?>" class="input-sosmed" style="background-image:url('<?php echo base_url();?>asset/logged-in/images/social icons/<?php echo $socmed->icon;?>'); background-repeat:no-repeat ; background-size:23px 23px; background-position:5% 75%; ">
+				<?php
 			}
 			?>
 
@@ -76,7 +74,7 @@ function kabkota(){
 			<label class="provinsi">
 				<select class="select-provinsi" id="select-provinsi" name="provinsi" onChange="kabkota()">
 					<option><?php echo $profile[0]->provinsi;?></option>
-					<option>=======</option>
+					<option value='0'>------------------</option>
 					<?php
 					foreach ($provinsi as $provinsi) {
 						?>
@@ -102,7 +100,7 @@ function kabkota(){
 			<label class="categori" >
 				<select class="select-kategori" id="select-kategori" name="store_type">
 					<option value="<?php echo $profile[0]->store_type_id;?>"><?php echo $profile[0]->store_type;?></option>
-					<option>=======</option>
+					<option>------------------</option>
 					<?php
 						foreach ($store_type as $store_type) {
 							?>
@@ -115,7 +113,7 @@ function kabkota(){
 				<input type="submit" value="Simpan !" class="btn-simpan-profile" name="save_profile"><br>
 				<?php 
 
-				if(isset($_SESSION['sukses']['query'])){
+				/*if(isset($_SESSION['sukses']['query'])){
 					echo '<p id="notif" onClick="closemini();">'.$_SESSION['sukses']['query'].'</p>';
 				}
 				if(!empty($_SESSION['error']['query'])){
@@ -126,7 +124,7 @@ function kabkota(){
 				}
 				if(isset($_SESSION['sukses'])){
 					unset($_SESSION['sukses']);
-				}
+				}*/
 
 				?>
 			</div>

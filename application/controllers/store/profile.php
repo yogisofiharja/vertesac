@@ -26,6 +26,7 @@ class Profile extends CI_Controller {
 	}
 
 	public function update(){
+		$store_id = 1;//ntar diganti ambil dari session
 		$store = new Store_model();
 		$store->store_type_id = $this->input->post('store_type');
 		$store->name = $this->input->post('name');
@@ -34,8 +35,41 @@ class Profile extends CI_Controller {
 		$store->slogan = $this->input->post('slogan');
 		$store->site = $this->input->post('site');
 		$store->desc = $this->input->post('desc');
-		$store->edit($this->input->post('store_id'));
-		redirect('store/profile/edit');
+		
+		$socmed = array();
+		
+		$config['upload_path'] = './asset/photo/store/profile/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['file_name'] = 'profile_of_'.$store_id;
+		$config['max_size']='50000';
+		
+		$this->load->library('upload', $config);
+		if($this->upload->do_upload('file')){
+			$store->photo=$this->upload->data()['orig_name'];
+			print "<pre>";
+			print_r($this->upload->data());
+			print "</pre>";
+			$store->edit($this->input->post('store_id'));
+			for($i=1;$i<=$store->count_socmed();$i++){
+				if($this->input->post('socmed')[$i]!=""){
+					$socmed[$i] = $this->input->post('socmed')[$i];
+				}
+			}
+			$store->delete_store_socmed(1);
+			foreach ($socmed as $key => $value) {
+				echo $key." ";
+				echo $value."<br/>";
+				$store->socme_id = $key;
+				$store->url = $value;
+				$store->set_store_socmed(1);
+			}
+			redirect('store/profile/edit');
+		}else{
+			print "<pre>";
+			print_r($this->upload->display_errors());
+			print "</pre>";
+
+		}
 	}
 
 	public function get_kabkota($id_provinsi){

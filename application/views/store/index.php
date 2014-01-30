@@ -17,7 +17,7 @@ include 'header.php';
 			<div id="box-info-left">
 				<?php if(!empty($profile[0]->photo)){
 					?>
-					<img src="<?php echo base_url();?>asset/photo/store/<?php echo $profile[0]->photo;?>" /> 
+					<img src="<?php echo base_url();?>asset/photo/store/profile/<?php echo $profile[0]->photo;?>" /> 
 					<?php
 				}else{
 					?>
@@ -27,30 +27,23 @@ include 'header.php';
 				?>
 				<!-- <img src="<?php echo base_url();?>asset/photo/store/<?php echo $profile[0]->photo;?>"/> -->
 			</div>
-			<h2 class="retail-store">Retail Store</h2>
+			<h2 class="retail-store"><?php echo $profile[0]->store_type;?></h2>
 		</div>
 		<div id="info-right">
 			<h2 class="title-merchant"><?php echo $profile[0]->name;?></h2>
 			<p class="description-merchant"><?php echo $profile[0]->desc;?></p>
-			<a href="download_qrcode.php" class="link"><button>Download QRCODE</button></a>
+			<a href="#" class="link"><button>Download QRCODE</button></a>
 			<hr>
 			<p class="address-merchant"><?php echo $profile[0]->address;?></p> 
 			<img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-15.png" style="float:left;">
-			<a href="<?php echo base_url();?>store/profile/edit" class="link"><p class="option-menu" >Edit Profile</p><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-14.png"  style=" padding-top:0px; width:25px; height:25px;"></a>
+			<a href="<?php echo base_url();?>store/profile/edit" class="link"><p class="option-menu" >Edit Profile</p><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-14.png"  style=" padding-top:0px; width:25px; height:25px;"></a><br/>
 			<a target="_blank" href='<?php echo "http://".$profile[0]->site;?>' class="link"><p class="site-merchant"><?php echo $profile[0]->site;?></p></a>
 			<?php
 			foreach ($store_socmed as $socmed) {
-				if($socmed->socme_id == 1){
-					?>
+				?>
 					<img src="<?php echo base_url();?>asset/logged-in/images/social icons/<?php echo $socmed->icon;?>" style="float:left; margin-right:10px;">
-					<a href="<?php echo 'http://www.facebook.com/'.$socmed->url;?>" class="link" target="_blank"><p class="sosmed-merchant-fb"><?php echo $socmed->url;?></p></a>
-					<?php
-				}else{
-					?>
-					<img src="<?php echo base_url();?>asset/logged-in/images/social icons/<?php echo $socmed->icon;?>" style="float:left; margin-right:10px; margin-left:40px;">
-					<a href="<?php echo 'http://www.twitter.com/'.$socmed->url;?>" class="link" target="_blank"><p class="sosmed-merchant-tweet"><?php echo $socmed->url;?></p></a>
-					<?php
-				}
+					<a href="<?php echo 'http://www.'.$socmed->name.'.com/'.$socmed->url;?>" class="link" target="_blank"><p class="sosmed-merchant-fb"><?php echo $socmed->url;?></p></a><br/><br/>
+				<?php	
 			}
 			?>
 			<!-- <a href="#" class="link"><p class="merchant-promo"><?php echo $profile[0]->jumlah_promo;?> promo</p></a> -->
@@ -62,7 +55,7 @@ include 'header.php';
 		<hr style="margin-bottom:0px;">
 		<h2 class="title-recent-promo">Recent promo</h2>
 		<!-- loop recent promo -->
-		<a href=promo class="link"><p class="option-see-all">See all..</p></a><br>
+		<a href="<?php echo base_url();?>store/promo" class="link"><p class="option-see-all">See all..</p></a><br>
 		<?php
 		foreach ($recent_promo as $recent) {
 			?>

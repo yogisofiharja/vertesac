@@ -11,17 +11,37 @@ class Store_model extends CI_Model{
 	var $desc='';
 	var $site='';
 	var $rating='';
-		//model for store administrator
+	var $socme_id='';
+	var $url='';
+	var $photo='';
+	//model for store administrator
 	function get_store_profile($store_id){
-		$q = $this->db->query("select s.*, sp.photo, st.name as store_type, k.nama as kabupaten, pr.nama as provinsi, count(p.store_id) as jumlah_promo from provinsi pr, store s, kabkota k, promo p, store_photo sp, store_type st where s.store_type_id=st.store_type_id and s.store_id=p.store_id and sp.store_id=s.store_id and s.id_kabkota=k.id_kabkota and k.id_provinsi = pr.id_provinsi and s.store_id =" .$store_id);
+		$q = $this->db->query("select s.*, st.name as store_type, k.nama as kabupaten, pr.nama as provinsi, count(p.store_id) as jumlah_promo from provinsi pr, store s, kabkota k, promo p, store_photo sp, store_type st where s.store_type_id=st.store_type_id and s.store_id=p.store_id and sp.store_id=s.store_id and s.id_kabkota=k.id_kabkota and k.id_provinsi = pr.id_provinsi and s.store_id =" .$store_id);
 		return $q->result();
 	}
 
 	function get_store_socmed($store_id){
 		// $q = $this->db->get_where('store_socme',array('store_id'=>$store_id));
-		$q = $this->db->query("select sm.name, sm.icon, ss.* from social_media sm, store_socme ss where sm.socme_id = ss.socme_id and ss.store_id = ".$store_id);
+		$q = $this->db->query("select sm.*, ss.url, ss.store_id from social_media sm left join store_socme ss on sm.socme_id = ss.socme_id and ss.store_id = ".$store_id);
 		return $q->result();
 	}
+	function delete_store_socmed($store_id){
+		$this->db->delete('store_socme', array('store_id' => $store_id));
+	}
+
+	function set_store_socmed($store_id){
+		$data=array(
+			'store_id' => $store_id,
+			'socme_id' => $this->socme_id,
+			'url' => $this->url
+			);
+		$this->db->insert('store_socme', $data);
+	}
+
+	function count_socmed(){
+		return $this->db->count_all("social_media");
+	}
+
 	//maafkan ini nyempil dari tabel store_type
 	function store_type(){
 		$q = $this->db->get('store_type');
@@ -50,7 +70,9 @@ class Store_model extends CI_Model{
 			'id_kabkota'=> $this->id_kabkota,
 			'slogan'=> $this->slogan,
 			'desc'=> $this->desc,
-			'site'=> $this->site
+			'site'=> $this->site,
+			'photo'=> $this->photo
+
 		);
 		$this->db->where('store_id', $store_id);
 		$this->db->update('store', $data);
