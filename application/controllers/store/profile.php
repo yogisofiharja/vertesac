@@ -45,10 +45,11 @@ class Profile extends CI_Controller {
 		
 		$this->load->library('upload', $config);
 		if($this->upload->do_upload('file')){
-			$store->photo=$this->upload->data()['orig_name'];
+			$store->photo=$this->upload->data()['file_name'];
 			print "<pre>";
 			print_r($this->upload->data());
 			print "</pre>";
+			echo $store->photo;
 			$store->edit($this->input->post('store_id'));
 			for($i=1;$i<=$store->count_socmed();$i++){
 				if($this->input->post('socmed')[$i]!=""){
@@ -57,13 +58,12 @@ class Profile extends CI_Controller {
 			}
 			$store->delete_store_socmed(1);
 			foreach ($socmed as $key => $value) {
-				echo $key." ";
-				echo $value."<br/>";
+				
 				$store->socme_id = $key;
 				$store->url = $value;
 				$store->set_store_socmed(1);
 			}
-			redirect('store/profile/edit');
+			// redirect('store/profile/edit');
 		}else{
 			print "<pre>";
 			print_r($this->upload->display_errors());
