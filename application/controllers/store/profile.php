@@ -37,19 +37,43 @@ class Profile extends CI_Controller {
 		$store->desc = $this->input->post('desc');
 		
 		$socmed = array();
-		
-		$config['upload_path'] = './asset/photo/store/profile/';
-		$config['allowed_types'] = 'gif|jpg|png|jpeg';
-		$config['file_name'] = 'profile_of_'.$store_id;
-		$config['max_size']='50000';
-		
-		$this->load->library('upload', $config);
-		if($this->upload->do_upload('file')){
-			$store->photo=$this->upload->data()['file_name'];
-			print "<pre>";
-			print_r($this->upload->data());
-			print "</pre>";
-			echo $store->photo;
+		if(isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])){
+			//hapus foto lama
+			exec("rm ./asset/photo/store/profile/".$this->input->post('photo'));
+
+			$config['upload_path'] = './asset/photo/store/profile/';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+			$config['file_name'] = 'profile_of_'.$store_id;
+			$config['max_size']='50000';
+
+			$this->load->library('upload', $config);
+			if($this->upload->do_upload('file')){
+				$store->photo=$this->upload->data()['file_name'];
+				/*print "<pre>";
+				print_r($this->upload->data());
+				print "</pre>";
+				echo $store->photo;
+				$store->edit($this->input->post('store_id'));*/
+				for($i=1;$i<=$store->count_socmed();$i++){
+					if($this->input->post('socmed')[$i]!=""){
+						$socmed[$i] = $this->input->post('socmed')[$i];
+					}
+				}
+				$store->delete_store_socmed(1);
+				foreach ($socmed as $key => $value) {
+
+					$store->socme_id = $key;
+					$store->url = $value;
+					$store->set_store_socmed(1);
+				}
+			// redirect('store/profile/edit');
+			}else{
+				print "<pre>";
+				print_r($this->upload->display_errors());
+				print "</pre>";
+
+			}
+		}else{
 			$store->edit($this->input->post('store_id'));
 			for($i=1;$i<=$store->count_socmed();$i++){
 				if($this->input->post('socmed')[$i]!=""){
@@ -58,17 +82,12 @@ class Profile extends CI_Controller {
 			}
 			$store->delete_store_socmed(1);
 			foreach ($socmed as $key => $value) {
-				
+
 				$store->socme_id = $key;
 				$store->url = $value;
 				$store->set_store_socmed(1);
 			}
 			// redirect('store/profile/edit');
-		}else{
-			print "<pre>";
-			print_r($this->upload->display_errors());
-			print "</pre>";
-
 		}
 	}
 

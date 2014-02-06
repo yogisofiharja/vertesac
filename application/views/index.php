@@ -163,11 +163,13 @@
 	<div class="slide" id="slide3" data-slide="3" data-stellar-background-ratio="0.5">
 		<h1>-stores-</h1>
 			<?php 
-			print_r($stores);
+			print "<pre>";
+			// print_r($stores);
+			print "</pre>";
 			foreach ($stores as $store):?>
 				<div class="store-box">
 					<div class="store-box-wrapper">
-						<img src="<?php echo base_url();?>asset/images/Stores-11.png">
+						<img src="<?php echo base_url();?>asset/photo/promo/<?php echo $store->photo;?>">
 						<h2 class="title"><?php echo $store->store_name;?></h2>
 						<label class="fashion"><?php echo $store->store_type;?></label>
 						<hr/>

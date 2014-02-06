@@ -80,7 +80,8 @@ class Store_model extends CI_Model{
 		//end for store administrator 
 
 		//model for landing page
-	function get_all($page, $per_page, $condition){
+	// function get_all($page, $per_page, $condition){
+	function get_all(){
 		$q = $this->db->get('store');
 			// $this->load->library('pagination');
 			// $config['base_url'] = base_url('dashboard/report/?');
@@ -103,8 +104,8 @@ class Store_model extends CI_Model{
 			$this->db->where('p.store_id = s.store_id and s.store_type_id = st.store_type_id');
 			$this->db->limit(4);
 			return $this->db->get();*/
-
-			return $this->db->query("select p.promo_id, p.subject, p.photo, p.disc, p.egg, s.name as store_name,st.name as store_type from promo p, store s, store_type st where p.store_id = s.store_id and s.store_type_id = st.store_type_id limit 4")->result();
+			$query = "select p.promo_id, p.subject, p.photo, p.disc, p.egg, s.name as store_name,st.name as store_type from promo p, store s, store_type st where p.store_id = s.store_id and s.store_type_id = st.store_type_id limit 4";
+			return $this->db->query($query)->result();
 			// return $this->db->get();			
 		}
 		//end model for landing page
