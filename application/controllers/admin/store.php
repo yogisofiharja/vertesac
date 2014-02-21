@@ -7,7 +7,7 @@ class Store extends CI_Controller {
 		$store = new Store_model();
 		$data = array();
 		$data['store'] = $store->get_all();
-		$this->load->view('admin/index', $data);
+		$this->load->view('admin/store', $data);
 	}
 
 }

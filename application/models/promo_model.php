@@ -14,10 +14,25 @@ class Promo_model extends CI_Model{
 		$query = $this->db->get_where('promo', array('store_id'=>$store_id), 8);
 		return $query->result();
 	}
-
-	function get_all_promo($store_id){
-		$query = $this->db->get_where('promo', array('store_id'=>$store_id));
+	function count_promo($store_id){
+		$query = $this->db->query("SELECT COUNT( promo_id ) as jumlah FROM  `promo` WHERE store_id =$store_id");
 		return $query->result();
+	}
+
+	function get_all_promo($store_id, $page="1", $maxlist){
+		if($page== 0){
+			$page = 1;
+		}
+		$page = $page - 1;
+		$startNumber = $page * $maxlist;
+		$startNumber < 0 ? $startNumber = 0: $startNumber = $startNumber;
+		$query = $this->db->query("select  * from promo where store_id = $store_id limit $startNumber, $maxlist");
+		// $query = $this->db->get_where('promo', array('store_id'=>$store_id));
+		return $query->result();
+	}
+	function get_all($store_id){
+		$query = $this->db->get_where('promo', array('store_id'=>$store_id));
+		return $query->result();		
 	}
 
 	function save($store_id){

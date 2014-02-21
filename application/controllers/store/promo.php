@@ -4,11 +4,24 @@ class Promo extends CI_Controller {
 		parent::__construct();
 	}
 
-	public function index(){
+	public function lists(){
 		
 		$promo = new Promo_model();
-		$data = array();		
-		$data['promo'] = $promo->get_all_promo(1);
+		$data = array();
+
+		$this->load->library('pagination');
+		$config['base_url'] = base_url('store/promo/lists');
+		$config['per_page'] = 10; 
+		$config['uri_segment'] = 4;
+		// $config['use_page_numbers'] = TRUE;
+		// $config['page_query_string'] = TRUE;
+		$config['total_rows'] = $promo->count_promo(1)[0]->jumlah;
+		$this->pagination->initialize($config); 
+		
+		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 1;
+		$data['promo'] = $promo->get_all_promo(1, $page, $config['per_page']);
+		// $data['promo'] = $promo->get_all(1);
+		$data['pages'] = $this->pagination->create_links(); 
 		$this->load->view('store/promo', $data);
 	}
 

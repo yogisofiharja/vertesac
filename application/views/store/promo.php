@@ -1,8 +1,6 @@
 <?php
 include 'header.php';
-/*print "<pre>";
-print_r($promo);
-print "</pre>";*/
+
 ?>
 <div id="wrapper-menu">
 	<div id="title">
@@ -38,7 +36,10 @@ print "</pre>";*/
 			</div>
 			<?php
 		}
+
+	echo "<p>".$pages."</p>";
 	?>
+</div>
 
 	<div id="fm-add-promo" onload="load()">
 		<h3 class="title-popup">Tambah Promo</h3>
