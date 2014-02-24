@@ -11,7 +11,8 @@ class Promo extends CI_Controller {
 
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('store/promo/lists');
-		$config['per_page'] = 10; 
+		$config['use_page_numbers'] = TRUE;
+		$config['per_page'] = 5; 
 		$config['uri_segment'] = 4;
 		// $config['use_page_numbers'] = TRUE;
 		// $config['page_query_string'] = TRUE;

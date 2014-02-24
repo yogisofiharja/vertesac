@@ -17,6 +17,10 @@ class Gallery_model extends CI_Model{
 		return $query->result();
 	}	
 
+	function get_single_photo($photo_id){
+		return $this->db->get_where('store_photo', array('photo_id'=>$photo_id))->result();
+	}
+
 	function count_photo($store_id){
 		$query = $this->db->query("SELECT COUNT( photo_id ) as jumlah FROM  `store_photo` WHERE store_id =$store_id");
 		return $query->result();
@@ -30,6 +34,29 @@ class Gallery_model extends CI_Model{
 			'fl_active' => 1
 		);
 		$this->db->insert('store_photo', $data);
+	}
+	
+	function delete($photo_id){
+		$this->db->delete('store_photo',array('photo_id'=>$photo_id));
+	}
+
+	function update($photo_id){
+		if($this->photo){
+			$data = array(
+				'photo'=>$this->photo,
+				'nama'=>$this->nama				
+			);
+			$array = array('photo_id'=>$photo_id);
+			$this->db->where($array);
+			$this->db->update('store_photo', $data);
+		}else{
+			$data = array(
+				'nama'=>$this->nama				
+			);
+			$array = array('photo_id'=>$photo_id);
+			$this->db->where($array);
+			$this->db->update('store_photo', $data);
+		}
 	}
 }
 ?>

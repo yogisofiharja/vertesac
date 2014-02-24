@@ -15,6 +15,7 @@ include 'header.php';
 <div id="content">
 <button class="add-product" id="add-promo" style="background-image:url('<?php echo base_url();?>asset/logged-in/images/add.png'); background-repeat:no-repeat; background-size:23px 23px; background-position:5% 75%;">Tambah Promo</button>
 <div id="data-product">
+	<?php echo "<br/><center>".$pages."</center>";?>
 	<?php
 		foreach ($promo as $promo) {
 			?>
@@ -37,8 +38,8 @@ include 'header.php';
 			<?php
 		}
 
-	echo "<p>".$pages."</p>";
 	?>
+	<?php echo "<br/><center>".$pages."</center>";?>
 </div>
 
 	<div id="fm-add-promo" onload="load()">

@@ -498,6 +498,7 @@ body{
 		margin-left: 120px;
 		margin-top: 0px;
 		color: #EC1710;
+		cursor: pointer;
 	}
 	#fm-add-product #fm-add-product-left{
 		width: 170px;
@@ -601,7 +602,7 @@ body{
 	 
 	/*Content Data Product*/
 	#content #data-product{
-		width: 90%;
+		width: 960px;
 		min-height:300px;
 		margin-left: 20px;
 		padding: 5px;
@@ -621,6 +622,20 @@ body{
 		background: #E5E5E5;
 		float:left;		
 	}
+
+	#content #data-product #box-photo{
+		width: 412px;
+		margin-left: 25px;
+		margin-bottom: 10px;
+		float:left;
+	}
+	#content #data-product #box-photo #box-img{
+		width: 146px;
+		height: 136px;
+		background: #E5E5E5;
+		float:left;		
+	}
+
 	#vis-btn-promo{
 		width: 130px;
 		height: 30px;
@@ -636,6 +651,9 @@ body{
 	#content #data-product #box-product #box-img:hover #vis-btn-promo{
 		display:inline;
 	}
+	#content #data-product #box-photo #box-img:hover #vis-btn-promo{
+		display:inline;
+	}
 	 .item-promo{
 		position:absolute;
 		margin-left: -140px;
@@ -645,6 +663,12 @@ body{
 		font-size: 13px;
 	}
 	#content #data-product #box-product #box-img img{
+		width: 130px;
+		height: 120px;
+		margin: 8px;
+		cursor:pointer;
+	}
+	#content #data-product #box-photo #box-img img{
 		width: 130px;
 		height: 120px;
 		margin: 8px;
@@ -1451,6 +1475,15 @@ body{
 		margin-top:5px;
 		margin-bottom:0px;
 	}
+	/*buat list photo*/
+	.photo-name{
+		font-size: 13px;
+		font-family: latoBold;
+		margin-top:5px;
+		margin-bottom:0px;
+		margin-left:150px;
+	}
+
 	.product-detail-name{
 		margin-top:0px;
 		margin-bottom:0px;
@@ -1845,6 +1878,7 @@ body{
 	width: 170px;
     height: 150px;
 	opacity:0.0;
+	cursor: pointer;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
 }
@@ -1880,6 +1914,7 @@ body{
 	width: 170px;
     height: 120px;
 	opacity:0.0;
+	cursor: pointer;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
 }
@@ -2044,9 +2079,9 @@ ul {
 #exit-intopro{
 	margin-left:0px;
 	margin-top:0px;
-	positiion:absolute;
 	margin-top:-40px;
 	margin-left:190px;
+	cursor: pointer;
 }
 #btn-inv-to-promo{
 	width: 70px;
@@ -2114,7 +2149,7 @@ div.paging span.prevnext a {
 	position:fixed; 
 	_position:absolute;
 	margin-left: 350px;
-	margin-top: -375px;
+	top: 150px;
 	z-index:100;
 }
 #fm-edit-galeri-box{
