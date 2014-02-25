@@ -69,7 +69,7 @@
 		<div id="nav-menu">
 			<a href="home"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Logo.png" alt="Logo"></a>
 			<div id="menu-reg">
-				<a href='logout.php' class='link' style='font-size: 12px; color:#fff;  margin-top: 20px; margin-left: 50px; position:absolute; '>Logout</a>
+				<a href='<?php echo base_url();?>login/logout' class='link' style='font-size: 12px; color:#fff;  margin-top: 20px; margin-left: 50px; position:absolute; '>Logout</a>
 			</div>
 			<ul class="top-menu">
 				<li class="border"><a href="<?php echo base_url('store')?>"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-09.png" alt="Vertesac Website_Merchant Profile-09" class="menu-merchant-img"><br><p class="menu-merchant-title">Profile</p></a></li>

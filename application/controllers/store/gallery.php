@@ -1,18 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+session_start();
 class Gallery extends CI_Controller {
 	
 	public function __construct(){
 		parent::__construct();
+		$is_logged_in = $this->session->userdata('logged_in');
+        if($is_logged_in!=true){
+            redirect('');
+        }
 	}
 
 	public function lists(){
-		$store_id = 1;
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$gallery = new Gallery_model();	
 		$data = array();
 
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('store/gallery/lists');
-		$config['total_rows'] = $gallery->count_photo(1)[0]->jumlah;
+		$config['total_rows'] = $gallery->count_photo($store_id)[0]->jumlah;
 		$config['per_page'] = 8; 
 		$config['use_page_numbers'] = TRUE;
 		$config['uri_segment'] = 4;
@@ -25,7 +30,7 @@ class Gallery extends CI_Controller {
 	}
 
 	public function save(){
-		$store_id = 1;
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$gallery = new Gallery_model();
 		$gallery->nama = $this->input->post('nama');
 		$nomor = rand(500, 15000);
@@ -56,7 +61,7 @@ class Gallery extends CI_Controller {
 	}
 	public function update(){
 		$gallery = new Gallery_model();
-		$store_id = 1;
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$nomor = rand(500, 15000);
 		$photo_id = $this->input->post('photo_id');
 		$gallery->nama = $this->input->post('nama');

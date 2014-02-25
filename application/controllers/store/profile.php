@@ -1,32 +1,40 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+session_start();
 class Profile extends CI_Controller {
 	
 	public function __construct(){
 		parent::__construct();
+		$is_logged_in = $this->session->userdata('logged_in');
+		if($is_logged_in!=true){
+			redirect('');
+		}
 	}
 
 	public function index(){
+		$store_id=$this->session->userdata('logged_in')['store_id'];
+
 		$store = new Store_model();
 		$promo = new Promo_model();
 		$data = array();
-		$data['profile'] = $store->get_store_profile(1);
-		$data['store_socmed'] = $store->get_store_socmed(1);
-		$data['recent_promo'] = $promo->get_recent_promo(1);
+		$data['profile'] = $store->get_store_profile($store_id);
+		$data['store_socmed'] = $store->get_store_socmed($store_id);
+		$data['recent_promo'] = $promo->get_recent_promo($store_id);
 		$this->load->view('store/index', $data);
 	}
 
 	public function edit(){
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$store = new Store_model();
 		$data = array();
-		$data['profile'] = $store->get_store_profile(1);
-		$data['store_socmed'] = $store->get_store_socmed(1);
+		$data['profile'] = $store->get_store_profile($store_id);
+		$data['store_socmed'] = $store->get_store_socmed($store_id);
 		$data['store_type'] = $store->store_type();
 		$data['provinsi'] = $store->provinsi();
 		$this->load->view('store/profile_edit', $data);
 	}
 
 	public function update(){
-		$store_id = 1;//ntar diganti ambil dari session
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$store = new Store_model();
 		$store->store_type_id = $this->input->post('store_type');
 		$store->name = $this->input->post('name');
@@ -52,21 +60,21 @@ class Profile extends CI_Controller {
 				/*print "<pre>";
 				print_r($this->upload->data());
 				print "</pre>";
-				echo $store->photo;
-				$store->edit($this->input->post('store_id'));*/
+				echo $store->photo;*/
+				$store->edit($store_id);
 				for($i=1;$i<=$store->count_socmed();$i++){
 					if($this->input->post('socmed')[$i]!=""){
 						$socmed[$i] = $this->input->post('socmed')[$i];
 					}
 				}
-				$store->delete_store_socmed(1);
+				$store->delete_store_socmed($store_id);
 				foreach ($socmed as $key => $value) {
 
 					$store->socme_id = $key;
 					$store->url = $value;
-					$store->set_store_socmed(1);
+					$store->set_store_socmed($store_id);
 				}
-			// redirect('store/profile/edit');
+				redirect('store/profile/edit');
 			}else{
 				print "<pre>";
 				print_r($this->upload->display_errors());
@@ -74,20 +82,21 @@ class Profile extends CI_Controller {
 
 			}
 		}else{
+			$store->photo = $this->input->post('photo');
 			$store->edit($this->input->post('store_id'));
 			for($i=1;$i<=$store->count_socmed();$i++){
 				if($this->input->post('socmed')[$i]!=""){
 					$socmed[$i] = $this->input->post('socmed')[$i];
 				}
 			}
-			$store->delete_store_socmed(1);
+			$store->delete_store_socmed($store_id);
 			foreach ($socmed as $key => $value) {
 
 				$store->socme_id = $key;
 				$store->url = $value;
-				$store->set_store_socmed(1);
+				$store->set_store_socmed($store_id);
 			}
-			// redirect('store/profile/edit');
+			redirect('store/profile/edit');
 		}
 	}
 

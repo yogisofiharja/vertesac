@@ -1899,6 +1899,7 @@ body{
 	width: 160px;
     height: 40px;
 	opacity:0.0;
+	cursor:pointer;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
 }

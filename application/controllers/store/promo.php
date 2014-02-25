@@ -1,11 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+session_start();
 class Promo extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
+		$is_logged_in = $this->session->userdata('logged_in');
+        if($is_logged_in!=true){
+            redirect('');
+        }
 	}
 
 	public function lists(){
-		
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$promo = new Promo_model();
 		$data = array();
 
@@ -16,18 +21,18 @@ class Promo extends CI_Controller {
 		$config['uri_segment'] = 4;
 		// $config['use_page_numbers'] = TRUE;
 		// $config['page_query_string'] = TRUE;
-		$config['total_rows'] = $promo->count_promo(1)[0]->jumlah;
+		$config['total_rows'] = $promo->count_promo($store_id)[0]->jumlah;
 		$this->pagination->initialize($config); 
 		
 		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 1;
-		$data['promo'] = $promo->get_all_promo(1, $page, $config['per_page']);
+		$data['promo'] = $promo->get_all_promo($store_id, $page, $config['per_page']);
 		// $data['promo'] = $promo->get_all(1);
 		$data['pages'] = $this->pagination->create_links(); 
 		$this->load->view('store/promo', $data);
 	}
 
 	public function save(){
-		$store_id = 1;//ntar ambil dari session
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$promo = new Promo_model();
 		$promo->subject = $this->input->post('subject');
 		// $promo->photo = $this->input->post('file');
@@ -56,7 +61,7 @@ class Promo extends CI_Controller {
 
 	}
 	public function edit($promo_code){
-		$store_id = 1; //ntar ambil dari session
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$promo = new Promo_model();
 		$data['promo'] = $promo->get_promo_detail($store_id, $promo_code);
 		$this->load->view('store/promo_edit', $data);
@@ -66,7 +71,7 @@ class Promo extends CI_Controller {
 	}
 
 	public function update(){
-		$store_id = 1;//ntar ambil dari session
+		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$promo = new Promo_model();
 		$promo->subject = $this->input->post('subject');
 		// $promo->photo = $this->input->post('file');

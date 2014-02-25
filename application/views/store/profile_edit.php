@@ -65,7 +65,6 @@ function kabkota(){
 		</div>
 		<div id="profile-setting-right">
 			<input type="hidden" name="photo" value="<?php echo $profile[0]->photo;?>">
-			<input type="hidden" name="store_id" value="<?php echo $profile[0]->store_id;?>">
 			<label class="judul">Nama Toko</label><br>
 			<input type="text" name="name" placeholder="Enter Data Here.." class="input-data-profile" value="<?php echo $profile[0]->name;?>"><br>
 			<label class="judul">Alamat Toko</label><br>
