@@ -4,6 +4,26 @@ include 'header.php';
 // print_r($store);
 // print "</pre>";
 ?>
+<script type="text/javascript">
+function altRows(id){
+	if(document.getElementsByTagName){  
+		
+		var table = document.getElementById(id);  
+		var rows = table.getElementsByTagName("tr"); 
+		
+		for(i = 0; i < rows.length; i++){          
+			if(i % 2 == 0){
+				rows[i].className = "evenrowcolor";
+			}else{
+				rows[i].className = "oddrowcolor";
+			}      
+		}
+	}
+}
+window.onload=function(){
+	altRows('alternatecolor');
+}
+</script>
 <div id="wrapper-menu">
 	<div id="title">
 		<h3 class="menu-title">Store</h3>
@@ -15,15 +35,16 @@ include 'header.php';
 </div>
 <div style="clear:both"></div>
 <div id="content">
-	<table >
-		<tr>
-			<td>No</td>
-			<td>Nama Toko</td>
-			<td>Alamat</td>
-			<td>Website</td>
-			<td>Rating</td>
-		</tr>
-		<?php
+	<div id="list">
+		<table class="altrowstable" id="alternatecolor">
+			<tr>
+				<th>No</th>
+				<th>Nama Toko</th>
+				<th>Alamat</th>
+				<th>Website</th>
+				<th>Rating</th>
+			</tr>
+			<?php
 			$i=1;
 			foreach ($store as $store) {
 				?>
@@ -37,8 +58,9 @@ include 'header.php';
 				<?php
 				$i++;
 			}
-		?>
-	</table>
-<?php
-include 'footer.php';
-?>
+			?>
+		</table>
+	</div>
+	<?php
+	include 'footer.php';
+	?>

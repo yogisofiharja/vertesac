@@ -5,14 +5,15 @@ class Profile extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$is_logged_in = $this->session->userdata('logged_in');
-		if($is_logged_in!=true){
-			redirect('');
-		}
+		if(!$is_logged_in && $is_logged_in['user_type']!="store"){
+            redirect('');
+        }
 	}
 
 	public function index(){
 		$store_id=$this->session->userdata('logged_in')['store_id'];
-
+		/*print_r($this->session->userdata('logged_in'));
+		print_r($store_id);exit;*/
 		$store = new Store_model();
 		$promo = new Promo_model();
 		$data = array();

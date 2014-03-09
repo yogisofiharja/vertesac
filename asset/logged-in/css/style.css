@@ -149,7 +149,8 @@ body{
 		width:950px;
 		margin-left:auto;
 		margin-right:auto;
-		margin-top:5px;
+		margin-top:10px;
+		margin-bottom:10px;
 	  }
 	  
 	  /*info 1 */
@@ -1106,7 +1107,10 @@ body{
 	}
 	
 	/*Profile */
-	
+	#content #list{
+		width:800px;
+		margin-left: 25px;
+	}
 	#content #info-profile,#recent-promo,#barang-dan-photo{
 		width: 800px;
 		margin-left: 10px;
@@ -2226,4 +2230,31 @@ div.paging span.prevnext a {
 }
 .user{
 	font-family:latoBold;
+}
+
+table.altrowstable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #a9c6c9;
+	border-collapse: collapse;
+}
+table.altrowstable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+table.altrowstable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+.oddrowcolor{
+	background-color:#d4e3e5;
+}
+.evenrowcolor{
+	background-color:#c3dde0;
 }
