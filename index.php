@@ -192,6 +192,18 @@ if (defined('ENVIRONMENT'))
 	}
 
 /*
+|---------------------------------------------------------------
+| TimeZone 
+|---------------------------------------------------------------
+|
+| default Time Zone
+| 
+
+*/
+if ( function_exists( 'date_default_timezone_set' ) )
+date_default_timezone_set('Asia/Jakarta');
+
+/*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------
@@ -200,6 +212,5 @@ if (defined('ENVIRONMENT'))
  *
  */
 require_once BASEPATH.'core/CodeIgniter.php';
-
 /* End of file index.php */
 /* Location: ./index.php */

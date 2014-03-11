@@ -1371,6 +1371,13 @@ body{
 		font-size:12px; 
 		font-family:latoBold;
 	}
+	.bag-attr{
+		margin-left:150px;
+		margin-top:6px; 
+		margin-bottom:0px; 
+		font-size:12px; 
+		font-family:latoLight;
+	}
 	.title-barang-photo{
 		margin-left:10px; 
 		color:#01A39A;
