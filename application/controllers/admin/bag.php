@@ -9,7 +9,7 @@ class Bag extends CI_Controller {
 
 		$this->load->library('pagination');
 		$config['base_url'] = base_url('admin/bag/lists');
-		$config['total_rows'] = $bag->count_bag()[0]->jumlah;
+		$config['total_rows'] = $bag->count_bag();
 		$config['per_page'] = 8; 
 		$config['use_page_numbers'] = TRUE;
 		$config['uri_segment'] = 4;
@@ -26,7 +26,17 @@ class Bag extends CI_Controller {
 	}
 
 	public function edit_bag($bag_type_id){
-		$this->load->view("admin/edit_bag");	
+		$bag = new Bag_model();
+		$data = array();
+		$data['bag']= $bag->get_single($bag_type_id);
+		$this->load->view("admin/edit_bag", $data);	
+	}
+
+	public function gallery($bag_type_id){
+		$bag = new Bag_model();
+		$data = array();
+		$data['bag_gallery'] = $bag->get_bag_gallery($bag_type_id);
+		$this->load->view("admin/gallery", $data);	
 	}
 
 	public function save(){
@@ -44,8 +54,22 @@ class Bag extends CI_Controller {
 		}else{
 			$bag->bag_type_id = $bag_type_id->bag_type_id + 1;
 		}
-		// $bag->save();
-		redirect('admin/bag');
+		//upload photo
+		$config['upload_path'] = './asset/photo/bag/main/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['file_name'] = 'photo_'.$bag->bag_type_id;
+		$config['max_size']='50000';
+		
+		$this->load->library('upload', $config);
+		if($this->upload->do_upload('file')){
+			$bag->photo=$this->upload->data()['file_name'];
+			$bag->save();
+			redirect('admin/bag');
+		}else{
+			print "<pre>";
+			print_r($this->upload->display_errors());
+			print "</pre>";
+		}
 	}
 
 	public function update($bag_type_id){
@@ -55,20 +79,20 @@ class Bag extends CI_Controller {
 		$bag->gender = $this->input->post('gender');
 		$bag->short_desc = $this->input->post('short_desc');
 		$bag->price = $this->input->post('price');
-
-		/*if(isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])){
+		$bag->update($bag_type_id);
+		if(isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])){
 			// echo "foto ada";exit;
-			exec("rm ./asset/photo/store/".$this->input->post('photo'));
-			$config['upload_path'] = './asset/photo/store/';
+			//exec("rm ./asset/photo/bag/main/".$this->input->post('photo'));
+			$config['upload_path'] = './asset/photo/bag/main/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
-			$config['file_name'] = 'photo_of_'.$store_id.'_'.$nomor.'_';
+			$config['file_name'] = 'photo_'.$bag_type_id;
 			$config['max_size']='50000';
 
 			$this->load->library('upload', $config);
 			if($this->upload->do_upload('file')){
-				$gallery->photo=$this->upload->data()['file_name'];
-				$gallery->update($photo_id);
-				redirect('store/gallery/');
+				$bag->photo=$this->upload->data()['file_name'];
+				$bag->update($bag_type_id);
+				redirect('admin/bag');
 			}else{
 				print "<pre>";
 				print_r($this->upload->display_errors());
@@ -76,9 +100,16 @@ class Bag extends CI_Controller {
 			}
 		}else{
 			// echo "foto ga ada";exit;
-			$gallery->update($photo_id);		
-			redirect('store/gallery');
-		}*/	
+			$bag->update($bag_type_id);		
+			redirect('admin/bag');
+		}	
 		redirect('admin/bag/edit_bag/'.$bag_type_id);	
+	}
+
+	public function delete($bag_type_id){
+		$bag = new Bag_model();
+		//remove foto database and folder
+		$bag->delete($bag_type_id);
+		redirect('admin/bag');
 	}
 }

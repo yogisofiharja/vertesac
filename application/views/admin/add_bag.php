@@ -36,7 +36,7 @@ echo "</pre>";*/
 			<label class="judul">Gender</label><br>
 			<label class="provinsi">
 				<select class="select-provinsi" id="select-provinsi" name="gender">
-					<option>Gender</option>
+					<option>---------</option>
 					<option value='F'>Female</option>
 					<option value='M'>Male</option>
 				</select>
@@ -44,6 +44,7 @@ echo "</pre>";*/
 			<label class="judul">Type</label><br>
 			<label class="kabkota">
 				<select class="select-kabkota" id="select-kabkota" name="type">
+					<option>---------</option>
 					<option value="F">Fashion</option>
 					<option value="L">Lipat</option>
 					<option value="H">Heavy Duty</option>

@@ -27,16 +27,16 @@ echo "</pre>";*/
 			?>
 			<div id="box-photo">
 				<div id="box-img">
-					<img src="<?php echo base_url();?>asset/photo/store/<?php echo $bag->bag_type_id;?>"><br>
+					<img src="<?php echo base_url();?>asset/photo/bag/main/<?php echo $bag->photo;?>"><br>
 					<button id="vis-btn-promo" onclick="location.href='<?php echo base_url().'admin/bag/edit_bag/'.$bag->bag_type_id;?>'">Edit Photo</button>
 				</div>
-				<a href="<?php echo base_url();?>store/gallery/delete/<?php echo $bag->bag_type_id;?>"><img src="<?php echo base_url();?>asset/logged-in/images/delete.png" width="12" height="12" style="margin-left: 230px; margin-top:8px; cursor: pointer; position:absolute;" onClick="return confirm('Delete This Image?')" title="Delete"></a>
+				<a href="<?php echo base_url();?>admin/bag/delete/<?php echo $bag->bag_type_id;?>"><img src="<?php echo base_url();?>asset/logged-in/images/delete.png" width="12" height="12" style="margin-left: 230px; margin-top:8px; cursor: pointer; position:absolute;" onClick="return confirm('Delete This Bag?')" title="Delete"></a>
 				<p class="photo-name" ><?php echo $bag->name;?></p>
 				<p class="bag-attr"><?php echo $bag->short_desc;?></p>
 				<p class="bag-attr">
 					<?php
 						setlocale(LC_MONETARY, 'in');
-						echo number_format($bag->price); 
+						echo 'Rp'.number_format($bag->price); 
 						// echo $bag->price;
 					?>
 				</p>
