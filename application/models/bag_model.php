@@ -4,6 +4,7 @@ class Bag_model extends CI_Model{
 	var $type='';
 	var $name='';
 	var $photo='';
+	// var $gallery_photo='';
 	var $short_desc='';
 	var $price='';
 	var $bag_type_id='';
@@ -27,6 +28,11 @@ class Bag_model extends CI_Model{
 		return $query->result()[0];
 	}
 
+	function get_single_gallery($photo_id){
+		$query = $this->db->get_where('bag_photo', array('photo_id' => $photo_id));
+		return $query->result()[0];
+	}
+
 	function get_bag_gallery($bag_type_id, $page="1", $maxList){
 		if($page ==0){
 			$page = 1;
@@ -34,12 +40,13 @@ class Bag_model extends CI_Model{
 		$page = $page - 1;
 		$startNumber = $page * $maxList;
 		$startNumber < 0 ? $startNumber =0: $startNumber = $startNumber;
-
-		$query = $this->db->get_where('bag_photo', array('bag_type_id'=>$bag_type_id), $startNumber, $maxList);
+		$query = $this->db->query("select * from bag_photo where bag_type_id = $bag_type_id limit $startNumber, $maxList");
 		
 		return $query->result();
 	}
-
+	function delete_gallery($photo_id){
+		$this->db->delete('bag_photo',array('photo_id'=>$photo_id));		
+	}
 	function save(){
 /*		$data=array(
 			'bag_type_id' => $this->bag_type_id,
@@ -78,9 +85,21 @@ class Bag_model extends CI_Model{
 		return $this->db->count_all('bag_type');
 	}
 
+	function count_photo($bag_type_id){
+		$query = $this->db->query("SELECT COUNT( photo_id ) as jumlah FROM  `bag_photo` WHERE bag_type_id =$bag_type_id");
+		return $query->result()[0]->jumlah;
+	}
+
 	function get_last_id(){
 		$query = $this->db->query("SELECT bag_type_id FROM bag_type ORDER BY bag_type_id DESC LIMIT 1;");
 		return $query->result()[0];
+	}
+	function add_gallery(){
+		$data = array(
+			'bag_type_id' => $this->bag_type_id,
+			'photo' => $this->photo
+		);
+		$this->db->insert('bag_photo', $data);
 	}
 }
 ?>

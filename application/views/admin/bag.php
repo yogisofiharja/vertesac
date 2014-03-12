@@ -60,6 +60,7 @@ echo "</pre>";*/
 						}
 					?>
 				</p>
+				<p class="bag-attr"><button onclick="location.href='<?php echo base_url();?>admin/bag/gallery/<?php echo $bag->bag_type_id;?>'" class="btn-simpan-profile">See Galleries</button></p>
 			</div>
 			
 			<?php
