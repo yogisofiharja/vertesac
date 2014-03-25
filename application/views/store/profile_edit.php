@@ -64,7 +64,7 @@ function kabkota(){
 
 		</div>
 		<div id="profile-setting-right">
-			<input type="hidden" name="photo" value="<?php echo $profile[0]->photo;?>">
+			<input type="hidden" name="photo" value="<?php //echo $profile[0]->photo;?>">
 			<label class="judul">Nama Toko</label><br>
 			<input type="text" name="name" placeholder="Enter Data Here.." class="input-data-profile" value="<?php echo $profile[0]->name;?>"><br>
 			<label class="judul">Alamat Toko</label><br>
@@ -94,7 +94,7 @@ function kabkota(){
 			<label class="judul">Slogan</label><br>
 			<input type="text" name="slogan" value="<?php echo $profile[0]->slogan;?>"placeholder="Enter Data Here.." class="input-data-profile"><br>
 			<label class="judul">Description</label><br>
-			<textarea name="desc" placeholder="Enter Data Here.." ><?php echo $profile[0]->desc;?></textarea><br>
+			<textarea name="desc" placeholder="Enter Data Here.." ><?php echo $profile[0]->description;?></textarea><br>
 			<label class="judul">Kategori Bisnis</label><br>
 			<label class="categori" >
 				<select class="select-kategori" id="select-kategori" name="store_type">

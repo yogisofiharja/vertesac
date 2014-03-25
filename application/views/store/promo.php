@@ -26,7 +26,7 @@ include 'header.php';
 				<div id="detail-promo">
 					<h3 class="get-promo"><?php echo $promo->subject;?></h3><br/><br/>
 					<!-- <a href="#"  class="link"><p class="see-all-promo">See all..</p></a> -->
-					<p class="promo-deskription"><?php echo $promo->desc;?></p>
+					<p class="promo-deskription"><?php echo $promo->description;?></p>
 					<p class="promo-diskon">Diskon: <?php echo $promo->disc;?> %</p>
 					<p class="eggs">Egg Rewards : <?php echo $promo->egg;?> Eggs</p>
 					<p class="massa-berlaku">Masa Berlaku : <?php echo $promo->start_time;?> s/d <?php echo $promo->end_time;?></p>

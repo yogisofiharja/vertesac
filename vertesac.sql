@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.6deb1
+-- version 4.1.8
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2014 at 11:22 PM
--- Server version: 5.5.35-0ubuntu0.13.10.2
--- PHP Version: 5.5.3-1ubuntu2.2
+-- Generation Time: Mar 21, 2014 at 04:05 PM
+-- Server version: 5.5.36-cll
+-- PHP Version: 5.4.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `vertccom_vertesac`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_member`
+--
+
+CREATE TABLE IF NOT EXISTS `activity_member` (
+  `act_mb_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`act_mb_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `activity_member`
+--
+
+INSERT INTO `activity_member` (`act_mb_id`, `name`) VALUES
+(1, 'Sign Up'),
+(2, 'Login'),
+(3, 'View Store List'),
+(4, 'View Promo List'),
+(5, 'View Egg History'),
+(6, 'Edit Profile'),
+(7, 'Change Profile Photo'),
+(8, 'View Egg History Store');
 
 -- --------------------------------------------------------
 
@@ -443,11 +469,7 @@ INSERT INTO `bag` (`bag_id`, `bag_type_id`, `seq`, `activation_code`, `time_adde
 ('VB00120140111231935801', '001', 'VQR140111231935396', '1GBNR0B1QDK', '2014-01-11 16:19:35', '1'),
 ('VB00120140111231935821', '001', 'VQR140111231935399', '1W2T8V09SYO', '2014-01-11 16:19:35', '1'),
 ('VB00120140111231935900', '001', 'VQR140111231935398', '2NNBV3QEXF8', '2014-01-11 16:19:35', '1'),
-('VB00120140111231936701', '001', 'VQR140111231936400', 'XM5Z23LEDR', '2014-01-11 16:19:36', '1'),
-('VB00220140303122753160', '002', 'VQR1403031227532', '19FJC9H72JG', '2014-03-03 05:27:53', '1'),
-('VB00220140303122753190', '002', 'VQR1403031227534', '200LV519FUO', '2014-03-03 05:27:53', '1'),
-('VB00220140303122753646', '002', 'VQR1403031227531', '11JYLC4L191', '2014-03-03 05:27:53', '1'),
-('VB00220140303122753685', '002', 'VQR1403031227533', '25XAFC1PYUI', '2014-03-03 05:27:53', '1');
+('VB00120140111231936701', '001', 'VQR140111231936400', 'XM5Z23LEDR', '2014-01-11 16:19:36', '1');
 
 -- --------------------------------------------------------
 
@@ -501,6 +523,7 @@ CREATE TABLE IF NOT EXISTS `bag_type` (
   `gender` enum('M','F') NOT NULL COMMENT 'M = male, F = female',
   `type` enum('F','L','H') NOT NULL COMMENT 'F = fashion, L = lipat, H = heavy duty',
   `name` varchar(30) NOT NULL,
+  `photo` varchar(50) NOT NULL,
   `short_desc` varchar(100) DEFAULT NULL,
   `price` bigint(20) NOT NULL,
   PRIMARY KEY (`bag_type_id`),
@@ -511,9 +534,9 @@ CREATE TABLE IF NOT EXISTS `bag_type` (
 -- Dumping data for table `bag_type`
 --
 
-INSERT INTO `bag_type` (`bag_type_id`, `gender`, `type`, `name`, `short_desc`, `price`) VALUES
-('001', 'F', 'F', 'Brown Sugar', 'Fabric Bags', 145000),
-('002', 'F', 'H', 'Neon Lime', 'Sporty Edition Limited', 250000);
+INSERT INTO `bag_type` (`bag_type_id`, `gender`, `type`, `name`, `photo`, `short_desc`, `price`) VALUES
+('001', 'F', 'F', 'Brown Sugar', '', 'Fabric Bags', 145000),
+('002', 'F', 'H', 'Neon Lime', '', 'Sporty Edition Limited', 250000);
 
 -- --------------------------------------------------------
 
@@ -529,12 +552,44 @@ CREATE TABLE IF NOT EXISTS `contact_us` (
   PRIMARY KEY (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `contact_us`
+-- Table structure for table `egg_package`
 --
 
-INSERT INTO `contact_us` (`time`, `name`, `email`, `message`) VALUES
-('2014-01-19 16:13:15', 'yogi', 'yogi@email.com', 'ini dari yogi nih bos.masuk ga?');
+CREATE TABLE IF NOT EXISTS `egg_package` (
+  `egg_package_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL,
+  `eggs` int(10) unsigned NOT NULL,
+  `price` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`egg_package_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `egg_package`
+--
+
+INSERT INTO `egg_package` (`egg_package_id`, `name`, `eggs`, `price`) VALUES
+(1, 'Gold', 500, 10000),
+(2, 'Silver', 300, 7000),
+(3, 'Bronze', 100, 5000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `egg_transaction`
+--
+
+CREATE TABLE IF NOT EXISTS `egg_transaction` (
+  `egg_trans_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `store_id` char(20) NOT NULL,
+  `egg_package_id` tinyint(3) unsigned NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`egg_trans_id`),
+  KEY `store_id` (`store_id`),
+  KEY `egg_package_id` (`egg_package_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -569,514 +624,582 @@ CREATE TABLE IF NOT EXISTS `kabkota` (
 --
 
 INSERT INTO `kabkota` (`id_kabkota`, `id_provinsi`, `nama`, `tipe`) VALUES
-(1, 1, 'Aceh Barat ', 'Kabupaten'),
-(2, 1, 'Aceh Barat Daya ', 'Kabupaten'),
-(3, 1, 'Aceh Besar ', 'Kabupaten'),
-(4, 1, 'Aceh Jaya ', 'Kabupaten'),
-(5, 1, 'Aceh Selatan ', 'Kabupaten'),
-(6, 1, 'Aceh Singkil ', 'Kabupaten'),
-(7, 1, 'Aceh Tamiang ', 'Kabupaten'),
-(8, 1, 'Aceh Tengah ', 'Kabupaten'),
-(9, 1, 'Aceh Tenggara ', 'Kabupaten'),
-(10, 1, 'Aceh Timur ', 'Kabupaten'),
-(11, 1, 'Aceh Utara ', 'Kabupaten'),
-(12, 1, 'Bener Meriah ', 'Kabupaten'),
-(13, 1, 'Bireuen ', 'Kabupaten'),
-(14, 1, 'Gayo Lues ', 'Kabupaten'),
-(15, 1, 'Nagan Raya ', 'Kabupaten'),
-(16, 1, 'Pidie ', 'Kabupaten'),
-(17, 1, 'Pidie Jaya ', 'Kabupaten'),
-(18, 1, 'Simeulue ', 'Kabupaten'),
-(19, 1, 'Banda Aceh ', 'Kota'),
-(20, 1, 'Langsa ', 'Kota'),
-(21, 1, 'Lhokseumawe ', 'Kota'),
-(22, 1, 'Sabang ', 'Kota'),
-(23, 1, 'Subulussalam ', 'Kota'),
-(24, 2, 'Asahan ', 'Kabupaten'),
-(25, 2, 'Batubara ', 'Kabupaten'),
-(26, 2, 'Dairi ', 'Kabupaten'),
-(27, 2, 'Deli Serdang ', 'Kabupaten'),
-(28, 2, 'Humbang Hasundutan ', 'Kabupaten'),
-(29, 2, 'Karo ', 'Kabupaten'),
-(30, 2, 'Labuhanbatu ', 'Kabupaten'),
-(31, 2, 'Labuhanbatu Selatan ', 'Kabupaten'),
-(32, 2, 'Labuhanbatu Utara ', 'Kabupaten'),
-(33, 2, 'Langkat ', 'Kabupaten'),
-(34, 2, 'Mandailing Natal ', 'Kabupaten'),
-(35, 2, 'Nias ', 'Kabupaten'),
-(36, 2, 'Nias Barat ', 'Kabupaten'),
-(37, 2, 'Nias Selatan ', 'Kabupaten'),
-(38, 2, 'Nias Utara ', 'Kabupaten'),
-(39, 2, 'Padang Lawas ', 'Kabupaten'),
-(40, 2, 'Padang Lawas Utara ', 'Kabupaten'),
-(41, 2, 'Pakpak Bharat ', 'Kabupaten'),
-(42, 2, 'Samosir ', 'Kabupaten'),
-(43, 2, 'Serdang Bedagai ', 'Kabupaten'),
-(44, 2, 'Simalungun ', 'Kabupaten'),
-(45, 2, 'Tapanuli Selatan ', 'Kabupaten'),
-(46, 2, 'Tapanuli Tengah ', 'Kabupaten'),
-(47, 2, 'Tapanuli Utara ', 'Kabupaten'),
-(48, 2, 'Toba Samosir ', 'Kabupaten'),
-(49, 2, 'Binjai ', 'Kota'),
-(50, 2, 'Gunungsitoli ', 'Kota'),
-(51, 2, 'Medan ', 'Kota'),
-(52, 2, 'Padang Sidempuan ', 'Kota'),
-(53, 2, 'Pematangsiantar ', 'Kota'),
-(54, 2, 'Sibolga ', 'Kota'),
-(55, 2, 'Tanjungbalai ', 'Kota'),
-(56, 2, 'Tebing Tinggi ', 'Kota'),
-(57, 3, 'Agam ', 'Kabupaten'),
-(58, 3, 'Dharmasraya ', 'Kabupaten'),
-(59, 3, 'Kepulauan Mentawai ', 'Kabupaten'),
-(60, 3, 'Lima Puluh Kota ', 'Kabupaten'),
-(61, 3, 'Padang Pariaman ', 'Kabupaten'),
-(62, 3, 'Pasaman ', 'Kabupaten'),
-(63, 3, 'Pasaman Barat ', 'Kabupaten'),
-(64, 3, 'Pesisir Selatan ', 'Kabupaten'),
-(65, 3, 'Sijunjung ', 'Kabupaten'),
-(66, 3, 'Solok ', 'Kabupaten'),
-(67, 3, 'Solok Selatan ', 'Kabupaten'),
-(68, 3, 'Tanah Datar ', 'Kabupaten'),
-(69, 3, 'Bukittinggi ', 'Kota'),
-(70, 3, 'Padang ', 'Kota'),
-(71, 3, 'Padang Panjang ', 'Kota'),
-(72, 3, 'Pariaman ', 'Kota'),
-(73, 3, 'Payakumbuh ', 'Kota'),
-(74, 3, 'Sawahlunto ', 'Kota'),
-(75, 3, 'Solok ', 'Kota'),
-(76, 4, 'Bengkalis ', 'Kabupaten'),
-(77, 4, 'Indragiri Hilir ', 'Kabupaten'),
-(78, 4, 'Indragiri Hulu ', 'Kabupaten'),
-(79, 4, 'Kampar ', 'Kabupaten'),
-(80, 4, 'Kuantan Singingi ', 'Kabupaten'),
-(81, 4, 'Pelalawan ', 'Kabupaten'),
-(82, 4, 'Rokan Hilir ', 'Kabupaten'),
-(83, 4, 'Rokan Hulu ', 'Kabupaten'),
-(84, 4, 'Siak ', 'Kabupaten'),
-(85, 4, 'Kepulauan Meranti ', 'Kabupaten'),
-(86, 4, 'Dumai ', 'Kota'),
-(87, 4, 'Pekanbaru ', 'Kota'),
-(88, 5, 'Bintan ', 'Kabupaten'),
-(89, 5, 'Karimun ', 'Kabupaten'),
-(90, 5, 'Kepulauan Anambas ', 'Kabupaten'),
-(91, 5, 'Lingga ', 'Kabupaten'),
-(92, 5, 'Natuna ', 'Kabupaten'),
-(93, 5, 'Batam ', 'Kota'),
-(94, 5, 'Tanjung Pinang ', 'Kota'),
-(95, 6, 'Batanghari ', 'Kabupaten'),
-(96, 6, 'Bungo ', 'Kabupaten'),
-(97, 6, 'Kerinci ', 'Kabupaten'),
-(98, 6, 'Merangin ', 'Kabupaten'),
-(99, 6, 'Muaro Jambi ', 'Kabupaten'),
-(100, 6, 'Sarolangun ', 'Kabupaten'),
-(101, 6, 'Tanjung Jabung Barat ', 'Kabupaten'),
-(102, 6, 'Tanjung Jabung Timur ', 'Kabupaten'),
-(103, 6, 'Tebo ', 'Kabupaten'),
-(104, 6, 'Jambi ', 'Kota'),
-(105, 6, 'Sungai Penuh ', 'Kota'),
-(106, 7, 'Bengkulu Selatan ', 'Kabupaten'),
-(107, 7, 'Bengkulu Tengah ', 'Kabupaten'),
-(108, 7, 'Bengkulu Utara ', 'Kabupaten'),
-(109, 7, 'Kaur ', 'Kabupaten'),
-(110, 7, 'Kepahiang ', 'Kabupaten'),
-(111, 7, 'Lebong ', 'Kabupaten'),
-(112, 7, 'Mukomuko ', 'Kabupaten'),
-(113, 7, 'Rejang Lebong ', 'Kabupaten'),
-(114, 7, 'Seluma ', 'Kabupaten'),
-(115, 7, 'Bengkulu ', 'Kota'),
-(116, 8, 'Banyuasin ', 'Kabupaten'),
-(117, 8, 'Empat Lawang ', 'Kabupaten'),
-(118, 8, 'Lahat ', 'Kabupaten'),
-(119, 8, 'Muara Enim ', 'Kabupaten'),
-(120, 8, 'Musi Banyuasin ', 'Kabupaten'),
-(121, 8, 'Musi Rawas ', 'Kabupaten'),
-(122, 8, 'Ogan Ilir ', 'Kabupaten'),
-(123, 8, 'Ogan Komering Ilir ', 'Kabupaten'),
-(124, 8, 'Ogan Komering Ulu ', 'Kabupaten'),
-(125, 8, 'Ogan Komering Ulu Selatan ', 'Kabupaten'),
-(126, 8, 'Ogan Komering Ulu Timur ', 'Kabupaten'),
-(127, 8, 'Lubuklinggau ', 'Kota'),
-(128, 8, 'Pagar Alam ', 'Kota'),
-(129, 8, 'Palembang ', 'Kota'),
-(130, 8, 'Prabumulih ', 'Kota'),
-(131, 8, 'Penukal Abab Lematang Ilir ', 'Kabupaten'),
-(132, 9, 'Bangka ', 'Kabupaten'),
-(133, 9, 'Bangka Barat ', 'Kabupaten'),
-(134, 9, 'Bangka Selatan ', 'Kabupaten'),
-(135, 9, 'Bangka Tengah ', 'Kabupaten'),
-(136, 9, 'Belitung ', 'Kabupaten'),
-(137, 9, 'Belitung Timur ', 'Kabupaten'),
-(138, 9, 'Pangkal Pinang ', 'Kota'),
-(139, 10, 'Lampung Tengah ', 'Kabupaten'),
-(140, 10, 'Lampung Utara ', 'Kabupaten'),
-(141, 10, 'Lampung Selatan ', 'Kabupaten'),
-(142, 10, 'Lampung Barat ', 'Kabupaten'),
-(143, 10, 'Tulang Bawang ', 'Kabupaten'),
-(144, 10, 'Tanggamus ', 'Kabupaten'),
-(145, 10, 'Way Kanan ', 'Kabupaten'),
-(146, 10, 'Lampung Timur ', 'Kabupaten'),
-(147, 10, 'Pesawaran ', 'Kabupaten'),
-(148, 10, 'Pringsewu ', 'Kabupaten'),
-(149, 10, 'Mesuji ', 'Kabupaten'),
-(150, 10, 'Tulang Bawang Barat ', 'Kabupaten'),
-(151, 10, 'Pesisir Barat ', 'Kabupaten'),
-(152, 10, 'Bandar Lampung ', 'Kota'),
-(153, 10, 'Metro ', 'Kota'),
-(154, 11, 'Tangerang ', 'Kabupaten'),
-(155, 11, 'Serang ', 'Kabupaten'),
-(156, 11, 'Lebak ', 'Kabupaten'),
-(157, 11, 'Pandeglang ', 'Kabupaten'),
-(158, 11, 'Tangerang ', 'Kota'),
-(159, 11, 'Serang ', 'Kota'),
-(160, 11, 'Cilegon ', 'Kota'),
-(161, 11, 'Tangerang Selatan ', 'Kota'),
-(162, 12, 'Bandung ', 'Kabupaten'),
-(163, 12, 'Bandung Barat ', 'Kabupaten'),
-(164, 12, 'Bekasi ', 'Kabupaten'),
-(165, 12, 'Bogor ', 'Kabupaten'),
-(166, 12, 'Ciamis ', 'Kabupaten'),
-(167, 12, 'Cianjur ', 'Kabupaten'),
-(168, 12, 'Cirebon ', 'Kabupaten'),
-(169, 12, 'Garut ', 'Kabupaten'),
-(170, 12, 'Indramayu ', 'Kabupaten'),
-(171, 12, 'Karawang ', 'Kabupaten'),
-(172, 12, 'Kuningan ', 'Kabupaten'),
-(173, 12, 'Majalengka ', 'Kabupaten'),
-(174, 12, 'Pangandaran ', 'Kabupaten'),
-(175, 12, 'Purwakarta ', 'Kabupaten'),
-(176, 12, 'Subang ', 'Kabupaten'),
-(177, 12, 'Sukabumi ', 'Kabupaten'),
-(178, 12, 'Sumedang ', 'Kabupaten'),
-(179, 12, 'Tasikmalaya ', 'Kabupaten'),
-(180, 12, 'Bandung ', 'Kota'),
-(181, 12, 'Banjar ', 'Kota'),
-(182, 12, 'Bekasi ', 'Kota'),
-(183, 12, 'Bogor ', 'Kota'),
-(184, 12, 'Cimahi ', 'Kota'),
-(185, 12, 'Cirebon ', 'Kota'),
-(186, 12, 'Depok ', 'Kota'),
-(187, 12, 'Sukabumi ', 'Kota'),
-(188, 12, 'Tasikmalaya ', 'Kota'),
-(189, 13, 'Kepulauan Seribu ', 'Kabupaten Administrasi'),
-(190, 13, 'Jakarta Barat ', 'Kota Administrasi'),
-(191, 13, 'Jakarta Pusat ', 'Kota Administrasi'),
-(192, 13, 'Jakarta Selatan ', 'Kota Administrasi'),
-(193, 13, 'Jakarta Timur ', 'Kota Administrasi'),
-(194, 13, 'Jakarta Utara ', 'Kota Administrasi'),
-(195, 14, 'Banjarnegara ', 'Kabupaten'),
-(196, 14, 'Banyumas ', 'Kabupaten'),
-(197, 14, 'Batang ', 'Kabupaten'),
-(198, 14, 'Blora ', 'Kabupaten'),
-(199, 14, 'Boyolali ', 'Kabupaten'),
-(200, 14, 'Brebes ', 'Kabupaten'),
-(201, 14, 'Cilacap ', 'Kabupaten'),
-(202, 14, 'Demak ', 'Kabupaten'),
-(203, 14, 'Grobogan ', 'Kabupaten'),
-(204, 14, 'Jepara ', 'Kota'),
-(205, 14, 'Karanganyar ', 'Kabupaten'),
-(206, 14, 'Kebumen ', 'Kabupaten'),
-(207, 14, 'Kendal ', 'Kabupaten'),
-(208, 14, 'Klaten ', 'Kabupaten'),
-(209, 14, 'Kudus ', 'Kabupaten'),
-(210, 14, 'Magelang ', 'Kabupaten'),
-(211, 14, 'Pati ', 'Kabupaten'),
-(212, 14, 'Pekalongan ', 'Kabupaten'),
-(213, 14, 'Pemalang ', 'Kabupaten'),
-(214, 14, 'Purbalingga ', 'Kabupaten'),
-(215, 14, 'Purworejo ', 'Kabupaten'),
-(216, 14, 'Rembang ', 'Kabupaten'),
-(217, 14, 'Semarang ', 'Kabupaten'),
-(218, 14, 'Sragen ', 'Kabupaten'),
-(219, 14, 'Sukoharjo ', 'Kabupaten'),
-(220, 14, 'Tegal ', 'Kabupaten'),
-(221, 14, 'Temanggung ', 'Kabupaten'),
-(222, 14, 'Wonogiri ', 'Kabupaten'),
-(223, 14, 'Wonosobo ', 'Kabupaten'),
-(224, 14, 'Magelang ', 'Kota'),
-(225, 14, 'Pekalongan ', 'Kota'),
-(226, 14, 'Salatiga ', 'Kota'),
-(227, 14, 'Semarang ', 'Kota'),
-(228, 14, 'Surakarta ', 'Kota'),
-(229, 14, 'Tegal ', 'Kota'),
-(230, 15, 'Bangkalan ', 'Kabupaten'),
-(231, 15, 'Banyuwangi ', 'Kabupaten'),
-(232, 15, 'Blitar ', 'Kabupaten'),
-(233, 15, 'Bojonegoro ', 'Kabupaten'),
-(234, 15, 'Bondowoso ', 'Kabupaten'),
-(235, 15, 'Gresik ', 'Kabupaten'),
-(236, 15, 'Jember ', 'Kabupaten'),
-(237, 15, 'Jombang ', 'Kabupaten'),
-(238, 15, 'Kediri ', 'Kabupaten'),
-(239, 15, 'Lamongan ', 'Kabupaten'),
-(240, 15, 'Lumajang ', 'Kabupaten'),
-(241, 15, 'Madiun ', 'Kabupaten'),
-(242, 15, 'Magetan ', 'Kabupaten'),
-(243, 15, 'Malang ', 'Kabupaten'),
-(244, 15, 'Mojokerto ', 'Kabupaten'),
-(245, 15, 'Nganjuk ', 'Kabupaten'),
-(246, 15, 'Ngawi ', 'Kabupaten'),
-(247, 15, 'Pacitan ', 'Kabupaten'),
-(248, 15, 'Pamekasan ', 'Kabupaten'),
-(249, 15, 'Pasuruan ', 'Kabupaten'),
-(250, 15, 'Ponorogo ', 'Kabupaten'),
-(251, 15, 'Probolinggo ', 'Kabupaten'),
-(252, 15, 'Sampang ', 'Kabupaten'),
-(253, 15, 'Sidoarjo ', 'Kabupaten'),
-(254, 15, 'Situbondo ', 'Kabupaten'),
-(255, 15, 'Sumenep ', 'Kabupaten'),
-(256, 15, 'Trenggalek ', 'Kabupaten'),
-(257, 15, 'Tuban ', 'Kabupaten'),
-(258, 15, 'Tulungagung ', 'Kabupaten'),
-(259, 15, 'Batu ', 'Kota'),
-(260, 15, 'Blitar ', 'Kota'),
-(261, 15, 'Kediri ', 'Kota'),
-(262, 15, 'Madiun ', 'Kota'),
-(263, 15, 'Malang ', 'Kota'),
-(264, 15, 'Mojokerto ', 'Kota'),
-(265, 15, 'Pasuruan ', 'Kota'),
-(266, 15, 'Probolinggo ', 'Kota'),
-(267, 15, 'Surabaya ', 'Kota'),
-(268, 16, 'Bantul ', 'Kabupaten'),
-(269, 16, 'Gunung Kidul ', 'Kabupaten'),
-(270, 16, 'Kulon Progo ', 'Kabupaten'),
-(271, 16, 'Sleman ', 'Kabupaten'),
-(272, 16, 'Yogyakarta ', 'Kota'),
-(273, 17, 'Badung ', 'Kabupaten'),
-(274, 17, 'Bangli ', 'Kabupaten'),
-(275, 17, 'Buleleng ', 'Kabupaten'),
-(276, 17, 'Gianyar ', 'Kabupaten'),
-(277, 17, 'Jembrana ', 'Kabupaten'),
-(278, 17, 'Karangasem ', 'Kabupaten'),
-(279, 17, 'Klungkung ', 'Kabupaten'),
-(280, 17, 'Tabanan ', 'Kabupaten'),
-(281, 17, 'Denpasar ', 'Kota'),
-(282, 18, 'Bima ', 'Kabupaten'),
-(283, 18, 'Dompu ', 'Kabupaten'),
-(284, 18, 'Lombok Barat ', 'Kabupaten'),
-(285, 18, 'Lombok Tengah ', 'Kabupaten'),
-(286, 18, 'Lombok Timur ', 'Kabupaten'),
-(287, 18, 'Lombok Utara ', 'Kabupaten'),
-(288, 18, 'Sumbawa ', 'Kabupaten'),
-(289, 18, 'Sumbawa Barat ', 'Kabupaten'),
-(290, 18, 'Bima ', 'Kota'),
-(291, 18, 'Mataram ', 'Kota'),
-(292, 19, 'Alor ', 'Kabupaten'),
-(293, 19, 'Belu ', 'Kabupaten'),
-(294, 19, 'Ende ', 'Kabupaten'),
-(295, 19, 'Flores Timur ', 'Kabupaten'),
-(296, 19, 'Kupang ', 'Kabupaten'),
-(297, 19, 'Lembata ', 'Kabupaten'),
-(298, 19, 'Manggarai ', 'Kabupaten'),
-(299, 19, 'Manggarai Barat ', 'Kabupaten'),
-(300, 19, 'Manggarai Timur ', 'Kabupaten'),
-(301, 19, 'Ngada ', 'Kabupaten'),
-(302, 19, 'Nagekeo ', 'Kabupaten'),
-(303, 19, 'Rote Ndao ', 'Kabupaten'),
-(304, 19, 'Sabu Raijua ', 'Kabupaten'),
-(305, 19, 'Sikka ', 'Kabupaten'),
-(306, 19, 'Sumba Barat ', 'Kabupaten'),
-(307, 19, 'Sumba Barat Daya ', 'Kabupaten'),
-(308, 19, 'Sumba Tengah ', 'Kabupaten'),
-(309, 19, 'Sumba Timur ', 'Kabupaten'),
-(310, 19, 'Timor Tengah Selatan ', 'Kabupaten'),
-(311, 19, 'Timor Tengah Utara ', 'Kabupaten'),
-(312, 19, 'Kupang ', 'Kota'),
-(313, 19, 'Malaka ', 'Kabupaten'),
-(314, 20, 'Bengkayang ', 'Kabupaten'),
-(315, 20, 'Kapuas Hulu ', 'Kabupaten'),
-(316, 20, 'Kayong Utara ', 'Kabupaten'),
-(317, 20, 'Ketapang ', 'Kabupaten'),
-(318, 20, 'Kubu Raya ', 'Kabupaten'),
-(319, 20, 'Landak ', 'Kabupaten'),
-(320, 20, 'Melawi ', 'Kabupaten'),
-(321, 20, 'Pontianak ', 'Kabupaten'),
-(322, 20, 'Sambas ', 'Kabupaten'),
-(323, 20, 'Sanggau ', 'Kabupaten'),
-(324, 20, 'Sekadau ', 'Kabupaten'),
-(325, 20, 'Sintang ', 'Kabupaten'),
-(326, 20, 'Pontianak ', 'Kota'),
-(327, 20, 'Singkawang ', 'Kota'),
-(328, 21, 'Balangan ', 'Kabupaten'),
-(329, 21, 'Banjar ', 'Kabupaten'),
-(330, 21, 'Barito Kuala ', 'Kabupaten'),
-(331, 21, 'Hulu Sungai Selatan ', 'Kabupaten'),
-(332, 21, 'Hulu Sungai Tengah ', 'Kabupaten'),
-(333, 21, 'Hulu Sungai Utara ', 'Kabupaten'),
-(334, 21, 'Kotabaru ', 'Kabupaten'),
-(335, 21, 'Tabalong ', 'Kabupaten'),
-(336, 21, 'Tanah Bumbu ', 'Kabupaten'),
-(337, 21, 'Tanah Laut ', 'Kabupaten'),
-(338, 21, 'Tapin ', 'Kabupaten'),
-(339, 21, 'Banjarbaru ', 'Kota'),
-(340, 21, 'Banjarmasin ', 'Kota'),
-(341, 22, 'Barito Selatan ', 'Kabupaten'),
-(342, 22, 'Barito Timur ', 'Kabupaten'),
-(343, 22, 'Barito Utara ', 'Kabupaten'),
-(344, 22, 'Gunung Mas ', 'Kabupaten'),
-(345, 22, 'Kapuas ', 'Kabupaten'),
-(346, 22, 'Katingan ', 'Kabupaten'),
-(347, 22, 'Kotawaringin Barat ', 'Kabupaten'),
-(348, 22, 'Kotawaringin Timur ', 'Kabupaten'),
-(349, 22, 'Lamandau ', 'Kabupaten'),
-(350, 22, 'Murung Raya ', 'Kabupaten'),
-(351, 22, 'Pulang Pisau ', 'Kabupaten'),
-(352, 22, 'Sukamara ', 'Kabupaten'),
-(353, 22, 'Seruyan ', 'Kabupaten'),
-(354, 22, 'Palangka Raya ', 'Kota'),
-(355, 23, 'Berau ', 'Kabupaten'),
-(356, 23, 'Kutai Barat ', 'Kabupaten'),
-(357, 23, 'Kutai Kartanegara ', 'Kabupaten'),
-(358, 23, 'Kutai Timur ', 'Kabupaten'),
-(359, 23, 'Paser ', 'Kabupaten'),
-(360, 23, 'Penajam Paser Utara ', 'Kabupaten'),
-(361, 23, 'Balikpapan ', 'Kota'),
-(362, 23, 'Bontang ', 'Kota'),
-(363, 23, 'Samarinda ', 'Kota'),
-(364, 23, 'Mahakam Ulu ', 'Kabupaten'),
-(365, 24, 'Bulungan ', 'Kabupaten'),
-(366, 24, 'Malinau ', 'Kabupaten'),
-(367, 24, 'Nunukan ', 'Kabupaten'),
-(368, 24, 'Tana Tidung ', 'Kabupaten'),
-(369, 24, 'Tarakan ', 'Kota'),
-(370, 25, 'Boalemo ', 'Kabupaten'),
-(371, 25, 'Bone Bolango ', 'Kabupaten'),
-(372, 25, 'Gorontalo ', 'Kabupaten'),
-(373, 25, 'Gorontalo Utara ', 'Kabupaten'),
-(374, 25, 'Pohuwato ', 'Kabupaten'),
-(375, 25, 'Gorontalo ', 'Kota'),
-(376, 26, 'Bantaeng ', 'Kabupaten'),
-(377, 26, 'Barru ', 'Kabupaten'),
-(378, 26, 'Bone ', 'Kabupaten'),
-(379, 26, 'Bulukumba ', 'Kabupaten'),
-(380, 26, 'Enrekang ', 'Kabupaten'),
-(381, 26, 'Gowa ', 'Kabupaten'),
-(382, 26, 'Jeneponto ', 'Kabupaten'),
-(383, 26, 'Kepulauan Selayar ', 'Kabupaten'),
-(384, 26, 'Luwu ', 'Kabupaten'),
-(385, 26, 'Luwu Timur ', 'Kabupaten'),
-(386, 26, 'Luwu Utara ', 'Kabupaten'),
-(387, 26, 'Maros ', 'Kabupaten'),
-(388, 26, 'Pangkajene Dan Kepulauan ', 'Kabupaten'),
-(389, 26, 'Pinrang ', 'Kabupaten'),
-(390, 26, 'Sidenreng Rappang ', 'Kabupaten'),
-(391, 26, 'Sinjai ', 'Kabupaten'),
-(392, 26, 'Soppeng ', 'Kabupaten'),
-(393, 26, 'Takalar ', 'Kabupaten'),
-(394, 26, 'Tana Toraja ', 'Kabupaten'),
-(395, 26, 'Toraja Utara ', 'Kabupaten'),
-(396, 26, 'Wajo ', 'Kabupaten'),
-(397, 26, 'Makassar ', 'Kota'),
-(398, 26, 'Palopo ', 'Kota'),
-(399, 26, 'Parepare ', 'Kota'),
-(400, 27, 'Bombana ', 'Kabupaten'),
-(401, 27, 'Buton ', 'Kabupaten'),
-(402, 27, 'Buton Utara ', 'Kabupaten'),
-(403, 27, 'Kolaka ', 'Kabupaten'),
-(404, 27, 'Kolaka Utara ', 'Kabupaten'),
-(405, 27, 'Konawe ', 'Kabupaten'),
-(406, 27, 'Konawe Selatan ', 'Kabupaten'),
-(407, 27, 'Konawe Utara ', 'Kabupaten'),
-(408, 27, 'Muna ', 'Kabupaten'),
-(409, 27, 'Wakatobi ', 'Kabupaten'),
-(410, 27, 'Bau-Bau ', 'Kota'),
-(411, 27, 'Kendari ', 'Kota'),
-(412, 27, 'Kolaka Timur ', 'Kabupaten'),
-(413, 28, 'Banggai ', 'Kabupaten'),
-(414, 28, 'Banggai Kepulauan ', 'Kabupaten'),
-(415, 28, 'Buol ', 'Kabupaten'),
-(416, 28, 'Donggala ', 'Kabupaten'),
-(417, 28, 'Morowali ', 'Kabupaten'),
-(418, 28, 'Parigi Moutong ', 'Kabupaten'),
-(419, 28, 'Poso ', 'Kabupaten'),
-(420, 28, 'Tojo Una-Una ', 'Kabupaten'),
-(421, 28, 'Toli-Toli ', 'Kabupaten'),
-(422, 28, 'Sigi ', 'Kabupaten'),
-(423, 28, 'Palu ', 'Kota'),
-(424, 28, 'Banggai Laut ', 'Kabupaten'),
-(425, 29, 'Bolaang Mongondow ', 'Kabupaten'),
-(426, 29, 'Bolaang Mongondow Selatan ', 'Kabupaten'),
-(427, 29, 'Bolaang Mongondow Timur ', 'Kabupaten'),
-(428, 29, 'Bolaang Mongondow Utara ', 'Kabupaten'),
-(429, 29, 'Kepulauan Sangihe ', 'Kabupaten'),
-(430, 29, 'Kepulauan Siau Tagulandang Biaro ', 'Kabupaten'),
-(431, 29, 'Kepulauan Talaud ', 'Kabupaten'),
-(432, 29, 'Minahasa ', 'Kabupaten'),
-(433, 29, 'Minahasa Selatan ', 'Kabupaten'),
-(434, 29, 'Minahasa Tenggara ', 'Kabupaten'),
-(435, 29, 'Minahasa Utara ', 'Kabupaten'),
-(436, 29, 'Bitung ', 'Kota'),
-(437, 29, 'Kotamobagu ', 'Kota'),
-(438, 29, 'Manado ', 'Kota'),
-(439, 29, 'Tomohon ', 'Kota'),
-(440, 30, 'Majene ', 'Kabupaten'),
-(441, 30, 'Mamasa ', 'Kabupaten'),
-(442, 30, 'Mamuju ', 'Kabupaten'),
-(443, 30, 'Mamuju Utara ', 'Kabupaten'),
-(444, 30, 'Polewali Mandar ', 'Kabupaten'),
-(445, 30, 'Mamuju Tengah ', 'Kabupaten'),
-(446, 31, 'Buru ', 'Kabupaten'),
-(447, 31, 'Buru Selatan ', 'Kabupaten'),
-(448, 31, 'Kepulauan Aru ', 'Kabupaten'),
-(449, 31, 'Maluku Barat Daya ', 'Kabupaten'),
-(450, 31, 'Maluku Tengah ', 'Kabupaten'),
-(451, 31, 'Maluku Tenggara ', 'Kabupaten'),
-(452, 31, 'Maluku Tenggara Barat ', 'Kabupaten'),
-(453, 31, 'Seram Bagian Barat ', 'Kabupaten'),
-(454, 31, 'Seram Bagian Timur ', 'Kabupaten'),
-(455, 31, 'Ambon ', 'Kota'),
-(456, 31, 'Tual ', 'Kota'),
-(457, 32, 'Halmahera Barat ', 'Kabupaten'),
-(458, 32, 'Halmahera Tengah ', 'Kabupaten'),
-(459, 32, 'Halmahera Utara ', 'Kabupaten'),
-(460, 32, 'Halmahera Selatan ', 'Kabupaten'),
-(461, 32, 'Kepulauan Sula ', 'Kabupaten'),
-(462, 32, 'Halmahera Timur ', 'Kabupaten'),
-(463, 32, 'Pulau Morotai ', 'Kabupaten'),
+(1, 1, 'Aceh Barat', 'Kabupaten'),
+(2, 1, 'Aceh Barat Daya', 'Kabupaten'),
+(3, 1, 'Aceh Besar', 'Kabupaten'),
+(4, 1, 'Aceh Jaya', 'Kabupaten'),
+(5, 1, 'Aceh Selatan', 'Kabupaten'),
+(6, 1, 'Aceh Singkil', 'Kabupaten'),
+(7, 1, 'Aceh Tamiang', 'Kabupaten'),
+(8, 1, 'Aceh Tengah', 'Kabupaten'),
+(9, 1, 'Aceh Tenggara', 'Kabupaten'),
+(10, 1, 'Aceh Timur', 'Kabupaten'),
+(11, 1, 'Aceh Utara', 'Kabupaten'),
+(12, 1, 'Bener Meriah', 'Kabupaten'),
+(13, 1, 'Bireuen', 'Kabupaten'),
+(14, 1, 'Gayo Lues', 'Kabupaten'),
+(15, 1, 'Nagan Raya', 'Kabupaten'),
+(16, 1, 'Pidie', 'Kabupaten'),
+(17, 1, 'Pidie Jaya', 'Kabupaten'),
+(18, 1, 'Simeulue', 'Kabupaten'),
+(19, 1, 'Banda Aceh', 'Kota'),
+(20, 1, 'Langsa', 'Kota'),
+(21, 1, 'Lhokseumawe', 'Kota'),
+(22, 1, 'Sabang', 'Kota'),
+(23, 1, 'Subulussalam', 'Kota'),
+(24, 2, 'Asahan', 'Kabupaten'),
+(25, 2, 'Batubara', 'Kabupaten'),
+(26, 2, 'Dairi', 'Kabupaten'),
+(27, 2, 'Deli Serdang', 'Kabupaten'),
+(28, 2, 'Humbang Hasundutan', 'Kabupaten'),
+(29, 2, 'Karo', 'Kabupaten'),
+(30, 2, 'Labuhanbatu', 'Kabupaten'),
+(31, 2, 'Labuhanbatu Selatan', 'Kabupaten'),
+(32, 2, 'Labuhanbatu Utara', 'Kabupaten'),
+(33, 2, 'Langkat', 'Kabupaten'),
+(34, 2, 'Mandailing Natal', 'Kabupaten'),
+(35, 2, 'Nias', 'Kabupaten'),
+(36, 2, 'Nias Barat', 'Kabupaten'),
+(37, 2, 'Nias Selatan', 'Kabupaten'),
+(38, 2, 'Nias Utara', 'Kabupaten'),
+(39, 2, 'Padang Lawas', 'Kabupaten'),
+(40, 2, 'Padang Lawas Utara', 'Kabupaten'),
+(41, 2, 'Pakpak Bharat', 'Kabupaten'),
+(42, 2, 'Samosir', 'Kabupaten'),
+(43, 2, 'Serdang Bedagai', 'Kabupaten'),
+(44, 2, 'Simalungun', 'Kabupaten'),
+(45, 2, 'Tapanuli Selatan', 'Kabupaten'),
+(46, 2, 'Tapanuli Tengah', 'Kabupaten'),
+(47, 2, 'Tapanuli Utara', 'Kabupaten'),
+(48, 2, 'Toba Samosir', 'Kabupaten'),
+(49, 2, 'Binjai', 'Kota'),
+(50, 2, 'Gunungsitoli', 'Kota'),
+(51, 2, 'Medan', 'Kota'),
+(52, 2, 'Padang Sidempuan', 'Kota'),
+(53, 2, 'Pematangsiantar', 'Kota'),
+(54, 2, 'Sibolga', 'Kota'),
+(55, 2, 'Tanjungbalai', 'Kota'),
+(56, 2, 'Tebing Tinggi', 'Kota'),
+(57, 3, 'Agam', 'Kabupaten'),
+(58, 3, 'Dharmasraya', 'Kabupaten'),
+(59, 3, 'Kepulauan Mentawai', 'Kabupaten'),
+(60, 3, 'Lima Puluh Kota', 'Kabupaten'),
+(61, 3, 'Padang Pariaman', 'Kabupaten'),
+(62, 3, 'Pasaman', 'Kabupaten'),
+(63, 3, 'Pasaman Barat', 'Kabupaten'),
+(64, 3, 'Pesisir Selatan', 'Kabupaten'),
+(65, 3, 'Sijunjung', 'Kabupaten'),
+(66, 3, 'Solok', 'Kabupaten'),
+(67, 3, 'Solok Selatan', 'Kabupaten'),
+(68, 3, 'Tanah Datar', 'Kabupaten'),
+(69, 3, 'Bukittinggi', 'Kota'),
+(70, 3, 'Padang', 'Kota'),
+(71, 3, 'Padang Panjang', 'Kota'),
+(72, 3, 'Pariaman', 'Kota'),
+(73, 3, 'Payakumbuh', 'Kota'),
+(74, 3, 'Sawahlunto', 'Kota'),
+(75, 3, 'Solok', 'Kota'),
+(76, 4, 'Bengkalis', 'Kabupaten'),
+(77, 4, 'Indragiri Hilir', 'Kabupaten'),
+(78, 4, 'Indragiri Hulu', 'Kabupaten'),
+(79, 4, 'Kampar', 'Kabupaten'),
+(80, 4, 'Kuantan Singingi', 'Kabupaten'),
+(81, 4, 'Pelalawan', 'Kabupaten'),
+(82, 4, 'Rokan Hilir', 'Kabupaten'),
+(83, 4, 'Rokan Hulu', 'Kabupaten'),
+(84, 4, 'Siak', 'Kabupaten'),
+(85, 4, 'Kepulauan Meranti', 'Kabupaten'),
+(86, 4, 'Dumai', 'Kota'),
+(87, 4, 'Pekanbaru', 'Kota'),
+(88, 5, 'Bintan', 'Kabupaten'),
+(89, 5, 'Karimun', 'Kabupaten'),
+(90, 5, 'Kepulauan Anambas', 'Kabupaten'),
+(91, 5, 'Lingga', 'Kabupaten'),
+(92, 5, 'Natuna', 'Kabupaten'),
+(93, 5, 'Batam', 'Kota'),
+(94, 5, 'Tanjung Pinang', 'Kota'),
+(95, 6, 'Batanghari', 'Kabupaten'),
+(96, 6, 'Bungo', 'Kabupaten'),
+(97, 6, 'Kerinci', 'Kabupaten'),
+(98, 6, 'Merangin', 'Kabupaten'),
+(99, 6, 'Muaro Jambi', 'Kabupaten'),
+(100, 6, 'Sarolangun', 'Kabupaten'),
+(101, 6, 'Tanjung Jabung Barat', 'Kabupaten'),
+(102, 6, 'Tanjung Jabung Timur', 'Kabupaten'),
+(103, 6, 'Tebo', 'Kabupaten'),
+(104, 6, 'Jambi', 'Kota'),
+(105, 6, 'Sungai Penuh', 'Kota'),
+(106, 7, 'Bengkulu Selatan', 'Kabupaten'),
+(107, 7, 'Bengkulu Tengah', 'Kabupaten'),
+(108, 7, 'Bengkulu Utara', 'Kabupaten'),
+(109, 7, 'Kaur', 'Kabupaten'),
+(110, 7, 'Kepahiang', 'Kabupaten'),
+(111, 7, 'Lebong', 'Kabupaten'),
+(112, 7, 'Mukomuko', 'Kabupaten'),
+(113, 7, 'Rejang Lebong', 'Kabupaten'),
+(114, 7, 'Seluma', 'Kabupaten'),
+(115, 7, 'Bengkulu', 'Kota'),
+(116, 8, 'Banyuasin', 'Kabupaten'),
+(117, 8, 'Empat Lawang', 'Kabupaten'),
+(118, 8, 'Lahat', 'Kabupaten'),
+(119, 8, 'Muara Enim', 'Kabupaten'),
+(120, 8, 'Musi Banyuasin', 'Kabupaten'),
+(121, 8, 'Musi Rawas', 'Kabupaten'),
+(122, 8, 'Ogan Ilir', 'Kabupaten'),
+(123, 8, 'Ogan Komering Ilir', 'Kabupaten'),
+(124, 8, 'Ogan Komering Ulu', 'Kabupaten'),
+(125, 8, 'Ogan Komering Ulu Selatan', 'Kabupaten'),
+(126, 8, 'Ogan Komering Ulu Timur', 'Kabupaten'),
+(127, 8, 'Lubuklinggau', 'Kota'),
+(128, 8, 'Pagar Alam', 'Kota'),
+(129, 8, 'Palembang', 'Kota'),
+(130, 8, 'Prabumulih', 'Kota'),
+(131, 8, 'Penukal Abab Lematang Ilir', 'Kabupaten'),
+(132, 9, 'Bangka', 'Kabupaten'),
+(133, 9, 'Bangka Barat', 'Kabupaten'),
+(134, 9, 'Bangka Selatan', 'Kabupaten'),
+(135, 9, 'Bangka Tengah', 'Kabupaten'),
+(136, 9, 'Belitung', 'Kabupaten'),
+(137, 9, 'Belitung Timur', 'Kabupaten'),
+(138, 9, 'Pangkal Pinang', 'Kota'),
+(139, 10, 'Lampung Tengah', 'Kabupaten'),
+(140, 10, 'Lampung Utara', 'Kabupaten'),
+(141, 10, 'Lampung Selatan', 'Kabupaten'),
+(142, 10, 'Lampung Barat', 'Kabupaten'),
+(143, 10, 'Tulang Bawang', 'Kabupaten'),
+(144, 10, 'Tanggamus', 'Kabupaten'),
+(145, 10, 'Way Kanan', 'Kabupaten'),
+(146, 10, 'Lampung Timur', 'Kabupaten'),
+(147, 10, 'Pesawaran', 'Kabupaten'),
+(148, 10, 'Pringsewu', 'Kabupaten'),
+(149, 10, 'Mesuji', 'Kabupaten'),
+(150, 10, 'Tulang Bawang Barat', 'Kabupaten'),
+(151, 10, 'Pesisir Barat', 'Kabupaten'),
+(152, 10, 'Bandar Lampung', 'Kota'),
+(153, 10, 'Metro', 'Kota'),
+(154, 11, 'Tangerang', 'Kabupaten'),
+(155, 11, 'Serang', 'Kabupaten'),
+(156, 11, 'Lebak', 'Kabupaten'),
+(157, 11, 'Pandeglang', 'Kabupaten'),
+(158, 11, 'Tangerang', 'Kota'),
+(159, 11, 'Serang', 'Kota'),
+(160, 11, 'Cilegon', 'Kota'),
+(161, 11, 'Tangerang Selatan', 'Kota'),
+(162, 12, 'Bandung', 'Kabupaten'),
+(163, 12, 'Bandung Barat', 'Kabupaten'),
+(164, 12, 'Bekasi', 'Kabupaten'),
+(165, 12, 'Bogor', 'Kabupaten'),
+(166, 12, 'Ciamis', 'Kabupaten'),
+(167, 12, 'Cianjur', 'Kabupaten'),
+(168, 12, 'Cirebon', 'Kabupaten'),
+(169, 12, 'Garut', 'Kabupaten'),
+(170, 12, 'Indramayu', 'Kabupaten'),
+(171, 12, 'Karawang', 'Kabupaten'),
+(172, 12, 'Kuningan', 'Kabupaten'),
+(173, 12, 'Majalengka', 'Kabupaten'),
+(174, 12, 'Pangandaran', 'Kabupaten'),
+(175, 12, 'Purwakarta', 'Kabupaten'),
+(176, 12, 'Subang', 'Kabupaten'),
+(177, 12, 'Sukabumi', 'Kabupaten'),
+(178, 12, 'Sumedang', 'Kabupaten'),
+(179, 12, 'Tasikmalaya', 'Kabupaten'),
+(180, 12, 'Bandung', 'Kota'),
+(181, 12, 'Banjar', 'Kota'),
+(182, 12, 'Bekasi', 'Kota'),
+(183, 12, 'Bogor', 'Kota'),
+(184, 12, 'Cimahi', 'Kota'),
+(185, 12, 'Cirebon', 'Kota'),
+(186, 12, 'Depok', 'Kota'),
+(187, 12, 'Sukabumi', 'Kota'),
+(188, 12, 'Tasikmalaya', 'Kota'),
+(189, 13, 'Kepulauan Seribu', 'Kabupaten Administrasi'),
+(190, 13, 'Jakarta Barat', 'Kota Administrasi'),
+(191, 13, 'Jakarta Pusat', 'Kota Administrasi'),
+(192, 13, 'Jakarta Selatan', 'Kota Administrasi'),
+(193, 13, 'Jakarta Timur', 'Kota Administrasi'),
+(194, 13, 'Jakarta Utara', 'Kota Administrasi'),
+(195, 14, 'Banjarnegara', 'Kabupaten'),
+(196, 14, 'Banyumas', 'Kabupaten'),
+(197, 14, 'Batang', 'Kabupaten'),
+(198, 14, 'Blora', 'Kabupaten'),
+(199, 14, 'Boyolali', 'Kabupaten'),
+(200, 14, 'Brebes', 'Kabupaten'),
+(201, 14, 'Cilacap', 'Kabupaten'),
+(202, 14, 'Demak', 'Kabupaten'),
+(203, 14, 'Grobogan', 'Kabupaten'),
+(204, 14, 'Jepara', 'Kota'),
+(205, 14, 'Karanganyar', 'Kabupaten'),
+(206, 14, 'Kebumen', 'Kabupaten'),
+(207, 14, 'Kendal', 'Kabupaten'),
+(208, 14, 'Klaten', 'Kabupaten'),
+(209, 14, 'Kudus', 'Kabupaten'),
+(210, 14, 'Magelang', 'Kabupaten'),
+(211, 14, 'Pati', 'Kabupaten'),
+(212, 14, 'Pekalongan', 'Kabupaten'),
+(213, 14, 'Pemalang', 'Kabupaten'),
+(214, 14, 'Purbalingga', 'Kabupaten'),
+(215, 14, 'Purworejo', 'Kabupaten'),
+(216, 14, 'Rembang', 'Kabupaten'),
+(217, 14, 'Semarang', 'Kabupaten'),
+(218, 14, 'Sragen', 'Kabupaten'),
+(219, 14, 'Sukoharjo', 'Kabupaten'),
+(220, 14, 'Tegal', 'Kabupaten'),
+(221, 14, 'Temanggung', 'Kabupaten'),
+(222, 14, 'Wonogiri', 'Kabupaten'),
+(223, 14, 'Wonosobo', 'Kabupaten'),
+(224, 14, 'Magelang', 'Kota'),
+(225, 14, 'Pekalongan', 'Kota'),
+(226, 14, 'Salatiga', 'Kota'),
+(227, 14, 'Semarang', 'Kota'),
+(228, 14, 'Surakarta', 'Kota'),
+(229, 14, 'Tegal', 'Kota'),
+(230, 15, 'Bangkalan', 'Kabupaten'),
+(231, 15, 'Banyuwangi', 'Kabupaten'),
+(232, 15, 'Blitar', 'Kabupaten'),
+(233, 15, 'Bojonegoro', 'Kabupaten'),
+(234, 15, 'Bondowoso', 'Kabupaten'),
+(235, 15, 'Gresik', 'Kabupaten'),
+(236, 15, 'Jember', 'Kabupaten'),
+(237, 15, 'Jombang', 'Kabupaten'),
+(238, 15, 'Kediri', 'Kabupaten'),
+(239, 15, 'Lamongan', 'Kabupaten'),
+(240, 15, 'Lumajang', 'Kabupaten'),
+(241, 15, 'Madiun', 'Kabupaten'),
+(242, 15, 'Magetan', 'Kabupaten'),
+(243, 15, 'Malang', 'Kabupaten'),
+(244, 15, 'Mojokerto', 'Kabupaten'),
+(245, 15, 'Nganjuk', 'Kabupaten'),
+(246, 15, 'Ngawi', 'Kabupaten'),
+(247, 15, 'Pacitan', 'Kabupaten'),
+(248, 15, 'Pamekasan', 'Kabupaten'),
+(249, 15, 'Pasuruan', 'Kabupaten'),
+(250, 15, 'Ponorogo', 'Kabupaten'),
+(251, 15, 'Probolinggo', 'Kabupaten'),
+(252, 15, 'Sampang', 'Kabupaten'),
+(253, 15, 'Sidoarjo', 'Kabupaten'),
+(254, 15, 'Situbondo', 'Kabupaten'),
+(255, 15, 'Sumenep', 'Kabupaten'),
+(256, 15, 'Trenggalek', 'Kabupaten'),
+(257, 15, 'Tuban', 'Kabupaten'),
+(258, 15, 'Tulungagung', 'Kabupaten'),
+(259, 15, 'Batu', 'Kota'),
+(260, 15, 'Blitar', 'Kota'),
+(261, 15, 'Kediri', 'Kota'),
+(262, 15, 'Madiun', 'Kota'),
+(263, 15, 'Malang', 'Kota'),
+(264, 15, 'Mojokerto', 'Kota'),
+(265, 15, 'Pasuruan', 'Kota'),
+(266, 15, 'Probolinggo', 'Kota'),
+(267, 15, 'Surabaya', 'Kota'),
+(268, 16, 'Bantul', 'Kabupaten'),
+(269, 16, 'Gunung Kidul', 'Kabupaten'),
+(270, 16, 'Kulon Progo', 'Kabupaten'),
+(271, 16, 'Sleman', 'Kabupaten'),
+(272, 16, 'Yogyakarta', 'Kota'),
+(273, 17, 'Badung', 'Kabupaten'),
+(274, 17, 'Bangli', 'Kabupaten'),
+(275, 17, 'Buleleng', 'Kabupaten'),
+(276, 17, 'Gianyar', 'Kabupaten'),
+(277, 17, 'Jembrana', 'Kabupaten'),
+(278, 17, 'Karangasem', 'Kabupaten'),
+(279, 17, 'Klungkung', 'Kabupaten'),
+(280, 17, 'Tabanan', 'Kabupaten'),
+(281, 17, 'Denpasar', 'Kota'),
+(282, 18, 'Bima', 'Kabupaten'),
+(283, 18, 'Dompu', 'Kabupaten'),
+(284, 18, 'Lombok Barat', 'Kabupaten'),
+(285, 18, 'Lombok Tengah', 'Kabupaten'),
+(286, 18, 'Lombok Timur', 'Kabupaten'),
+(287, 18, 'Lombok Utara', 'Kabupaten'),
+(288, 18, 'Sumbawa', 'Kabupaten'),
+(289, 18, 'Sumbawa Barat', 'Kabupaten'),
+(290, 18, 'Bima', 'Kota'),
+(291, 18, 'Mataram', 'Kota'),
+(292, 19, 'Alor', 'Kabupaten'),
+(293, 19, 'Belu', 'Kabupaten'),
+(294, 19, 'Ende', 'Kabupaten'),
+(295, 19, 'Flores Timur', 'Kabupaten'),
+(296, 19, 'Kupang', 'Kabupaten'),
+(297, 19, 'Lembata', 'Kabupaten'),
+(298, 19, 'Manggarai', 'Kabupaten'),
+(299, 19, 'Manggarai Barat', 'Kabupaten'),
+(300, 19, 'Manggarai Timur', 'Kabupaten'),
+(301, 19, 'Ngada', 'Kabupaten'),
+(302, 19, 'Nagekeo', 'Kabupaten'),
+(303, 19, 'Rote Ndao', 'Kabupaten'),
+(304, 19, 'Sabu Raijua', 'Kabupaten'),
+(305, 19, 'Sikka', 'Kabupaten'),
+(306, 19, 'Sumba Barat', 'Kabupaten'),
+(307, 19, 'Sumba Barat Daya', 'Kabupaten'),
+(308, 19, 'Sumba Tengah', 'Kabupaten'),
+(309, 19, 'Sumba Timur', 'Kabupaten'),
+(310, 19, 'Timor Tengah Selatan', 'Kabupaten'),
+(311, 19, 'Timor Tengah Utara', 'Kabupaten'),
+(312, 19, 'Kupang', 'Kota'),
+(313, 19, 'Malaka', 'Kabupaten'),
+(314, 20, 'Bengkayang', 'Kabupaten'),
+(315, 20, 'Kapuas Hulu', 'Kabupaten'),
+(316, 20, 'Kayong Utara', 'Kabupaten'),
+(317, 20, 'Ketapang', 'Kabupaten'),
+(318, 20, 'Kubu Raya', 'Kabupaten'),
+(319, 20, 'Landak', 'Kabupaten'),
+(320, 20, 'Melawi', 'Kabupaten'),
+(321, 20, 'Pontianak', 'Kabupaten'),
+(322, 20, 'Sambas', 'Kabupaten'),
+(323, 20, 'Sanggau', 'Kabupaten'),
+(324, 20, 'Sekadau', 'Kabupaten'),
+(325, 20, 'Sintang', 'Kabupaten'),
+(326, 20, 'Pontianak', 'Kota'),
+(327, 20, 'Singkawang', 'Kota'),
+(328, 21, 'Balangan', 'Kabupaten'),
+(329, 21, 'Banjar', 'Kabupaten'),
+(330, 21, 'Barito Kuala', 'Kabupaten'),
+(331, 21, 'Hulu Sungai Selatan', 'Kabupaten'),
+(332, 21, 'Hulu Sungai Tengah', 'Kabupaten'),
+(333, 21, 'Hulu Sungai Utara', 'Kabupaten'),
+(334, 21, 'Kotabaru', 'Kabupaten'),
+(335, 21, 'Tabalong', 'Kabupaten'),
+(336, 21, 'Tanah Bumbu', 'Kabupaten'),
+(337, 21, 'Tanah Laut', 'Kabupaten'),
+(338, 21, 'Tapin', 'Kabupaten'),
+(339, 21, 'Banjarbaru', 'Kota'),
+(340, 21, 'Banjarmasin', 'Kota'),
+(341, 22, 'Barito Selatan', 'Kabupaten'),
+(342, 22, 'Barito Timur', 'Kabupaten'),
+(343, 22, 'Barito Utara', 'Kabupaten'),
+(344, 22, 'Gunung Mas', 'Kabupaten'),
+(345, 22, 'Kapuas', 'Kabupaten'),
+(346, 22, 'Katingan', 'Kabupaten'),
+(347, 22, 'Kotawaringin Barat', 'Kabupaten'),
+(348, 22, 'Kotawaringin Timur', 'Kabupaten'),
+(349, 22, 'Lamandau', 'Kabupaten'),
+(350, 22, 'Murung Raya', 'Kabupaten'),
+(351, 22, 'Pulang Pisau', 'Kabupaten'),
+(352, 22, 'Sukamara', 'Kabupaten'),
+(353, 22, 'Seruyan', 'Kabupaten'),
+(354, 22, 'Palangka Raya', 'Kota'),
+(355, 23, 'Berau', 'Kabupaten'),
+(356, 23, 'Kutai Barat', 'Kabupaten'),
+(357, 23, 'Kutai Kartanegara', 'Kabupaten'),
+(358, 23, 'Kutai Timur', 'Kabupaten'),
+(359, 23, 'Paser', 'Kabupaten'),
+(360, 23, 'Penajam Paser Utara', 'Kabupaten'),
+(361, 23, 'Balikpapan', 'Kota'),
+(362, 23, 'Bontang', 'Kota'),
+(363, 23, 'Samarinda', 'Kota'),
+(364, 23, 'Mahakam Ulu', 'Kabupaten'),
+(365, 24, 'Bulungan', 'Kabupaten'),
+(366, 24, 'Malinau', 'Kabupaten'),
+(367, 24, 'Nunukan', 'Kabupaten'),
+(368, 24, 'Tana Tidung', 'Kabupaten'),
+(369, 24, 'Tarakan', 'Kota'),
+(370, 25, 'Boalemo', 'Kabupaten'),
+(371, 25, 'Bone Bolango', 'Kabupaten'),
+(372, 25, 'Gorontalo', 'Kabupaten'),
+(373, 25, 'Gorontalo Utara', 'Kabupaten'),
+(374, 25, 'Pohuwato', 'Kabupaten'),
+(375, 25, 'Gorontalo', 'Kota'),
+(376, 26, 'Bantaeng', 'Kabupaten'),
+(377, 26, 'Barru', 'Kabupaten'),
+(378, 26, 'Bone', 'Kabupaten'),
+(379, 26, 'Bulukumba', 'Kabupaten'),
+(380, 26, 'Enrekang', 'Kabupaten'),
+(381, 26, 'Gowa', 'Kabupaten'),
+(382, 26, 'Jeneponto', 'Kabupaten'),
+(383, 26, 'Kepulauan Selayar', 'Kabupaten'),
+(384, 26, 'Luwu', 'Kabupaten'),
+(385, 26, 'Luwu Timur', 'Kabupaten'),
+(386, 26, 'Luwu Utara', 'Kabupaten'),
+(387, 26, 'Maros', 'Kabupaten'),
+(388, 26, 'Pangkajene Dan Kepulauan', 'Kabupaten'),
+(389, 26, 'Pinrang', 'Kabupaten'),
+(390, 26, 'Sidenreng Rappang', 'Kabupaten'),
+(391, 26, 'Sinjai', 'Kabupaten'),
+(392, 26, 'Soppeng', 'Kabupaten'),
+(393, 26, 'Takalar', 'Kabupaten'),
+(394, 26, 'Tana Toraja', 'Kabupaten'),
+(395, 26, 'Toraja Utara', 'Kabupaten'),
+(396, 26, 'Wajo', 'Kabupaten'),
+(397, 26, 'Makassar', 'Kota'),
+(398, 26, 'Palopo', 'Kota'),
+(399, 26, 'Parepare', 'Kota'),
+(400, 27, 'Bombana', 'Kabupaten'),
+(401, 27, 'Buton', 'Kabupaten'),
+(402, 27, 'Buton Utara', 'Kabupaten'),
+(403, 27, 'Kolaka', 'Kabupaten'),
+(404, 27, 'Kolaka Utara', 'Kabupaten'),
+(405, 27, 'Konawe', 'Kabupaten'),
+(406, 27, 'Konawe Selatan', 'Kabupaten'),
+(407, 27, 'Konawe Utara', 'Kabupaten'),
+(408, 27, 'Muna', 'Kabupaten'),
+(409, 27, 'Wakatobi', 'Kabupaten'),
+(410, 27, 'Bau-Bau', 'Kota'),
+(411, 27, 'Kendari', 'Kota'),
+(412, 27, 'Kolaka Timur', 'Kabupaten'),
+(413, 28, 'Banggai', 'Kabupaten'),
+(414, 28, 'Banggai Kepulauan', 'Kabupaten'),
+(415, 28, 'Buol', 'Kabupaten'),
+(416, 28, 'Donggala', 'Kabupaten'),
+(417, 28, 'Morowali', 'Kabupaten'),
+(418, 28, 'Parigi Moutong', 'Kabupaten'),
+(419, 28, 'Poso', 'Kabupaten'),
+(420, 28, 'Tojo Una-Una', 'Kabupaten'),
+(421, 28, 'Toli-Toli', 'Kabupaten'),
+(422, 28, 'Sigi', 'Kabupaten'),
+(423, 28, 'Palu', 'Kota'),
+(424, 28, 'Banggai Laut', 'Kabupaten'),
+(425, 29, 'Bolaang Mongondow', 'Kabupaten'),
+(426, 29, 'Bolaang Mongondow Selatan', 'Kabupaten'),
+(427, 29, 'Bolaang Mongondow Timur', 'Kabupaten'),
+(428, 29, 'Bolaang Mongondow Utara', 'Kabupaten'),
+(429, 29, 'Kepulauan Sangihe', 'Kabupaten'),
+(430, 29, 'Kepulauan Siau Tagulandang Biaro', 'Kabupaten'),
+(431, 29, 'Kepulauan Talaud', 'Kabupaten'),
+(432, 29, 'Minahasa', 'Kabupaten'),
+(433, 29, 'Minahasa Selatan', 'Kabupaten'),
+(434, 29, 'Minahasa Tenggara', 'Kabupaten'),
+(435, 29, 'Minahasa Utara', 'Kabupaten'),
+(436, 29, 'Bitung', 'Kota'),
+(437, 29, 'Kotamobagu', 'Kota'),
+(438, 29, 'Manado', 'Kota'),
+(439, 29, 'Tomohon', 'Kota'),
+(440, 30, 'Majene', 'Kabupaten'),
+(441, 30, 'Mamasa', 'Kabupaten'),
+(442, 30, 'Mamuju', 'Kabupaten'),
+(443, 30, 'Mamuju Utara', 'Kabupaten'),
+(444, 30, 'Polewali Mandar', 'Kabupaten'),
+(445, 30, 'Mamuju Tengah', 'Kabupaten'),
+(446, 31, 'Buru', 'Kabupaten'),
+(447, 31, 'Buru Selatan', 'Kabupaten'),
+(448, 31, 'Kepulauan Aru', 'Kabupaten'),
+(449, 31, 'Maluku Barat Daya', 'Kabupaten'),
+(450, 31, 'Maluku Tengah', 'Kabupaten'),
+(451, 31, 'Maluku Tenggara', 'Kabupaten'),
+(452, 31, 'Maluku Tenggara Barat', 'Kabupaten'),
+(453, 31, 'Seram Bagian Barat', 'Kabupaten'),
+(454, 31, 'Seram Bagian Timur', 'Kabupaten'),
+(455, 31, 'Ambon', 'Kota'),
+(456, 31, 'Tual', 'Kota'),
+(457, 32, 'Halmahera Barat', 'Kabupaten'),
+(458, 32, 'Halmahera Tengah', 'Kabupaten'),
+(459, 32, 'Halmahera Utara', 'Kabupaten'),
+(460, 32, 'Halmahera Selatan', 'Kabupaten'),
+(461, 32, 'Kepulauan Sula', 'Kabupaten'),
+(462, 32, 'Halmahera Timur', 'Kabupaten'),
+(463, 32, 'Pulau Morotai', 'Kabupaten'),
 (464, 32, 'Ternate', 'Kota'),
-(465, 32, 'Tidore Kepulauan ', 'Kota'),
-(466, 32, 'Pulau Taliabu ', 'Kabupaten'),
-(467, 33, 'Asmat ', 'Kabupaten'),
-(468, 33, 'Biak Numfor ', 'Kabupaten'),
-(469, 33, 'Boven Digoel ', 'Kabupaten'),
-(470, 33, 'Deiyai ', 'Kabupaten'),
-(471, 33, 'Dogiyai ', 'Kabupaten'),
-(472, 33, 'Intan Jaya ', 'Kabupaten'),
-(473, 33, 'Jayapura ', 'Kabupaten'),
-(474, 33, 'Jayawijaya ', 'Kabupaten'),
-(475, 33, 'Keerom ', 'Kabupaten'),
-(476, 33, 'Kepulauan Yapen ', 'Kabupaten'),
-(477, 33, 'Lanny Jaya ', 'Kabupaten'),
-(478, 33, 'Mamberamo Raya ', 'Kabupaten'),
-(479, 33, 'Mamberamo Tengah ', 'Kabupaten'),
-(480, 33, 'Mappi ', 'Kabupaten'),
-(481, 33, 'Merauke ', 'Kabupaten'),
-(482, 33, 'Mimika ', 'Kabupaten'),
-(483, 33, 'Nabire ', 'Kabupaten'),
-(484, 33, 'Nduga ', 'Kabupaten'),
-(485, 33, 'Paniai ', 'Kabupaten'),
-(486, 33, 'Pegunungan Bintang ', 'Kabupaten'),
-(487, 33, 'Puncak ', 'Kabupaten'),
-(488, 33, 'Puncak Jaya ', 'Kabupaten'),
-(489, 33, 'Sarmi ', 'Kabupaten'),
-(490, 33, 'Supiori ', 'Kabupaten'),
-(491, 33, 'Tolikara ', 'Kabupaten'),
-(492, 33, 'Waropen ', 'Kabupaten'),
-(493, 33, 'Yahukimo ', 'Kabupaten'),
-(494, 33, 'Yalimo ', 'Kabupaten'),
-(495, 33, 'Jayapura ', 'Kota'),
-(496, 34, 'Fakfak ', 'Kabupaten'),
-(497, 34, 'Kaimana ', 'Kabupaten'),
-(498, 34, 'Manokwari ', 'Kabupaten'),
-(499, 34, 'Manokwari Selatan ', 'Kabupaten'),
-(500, 34, 'Maybrat ', 'Kabupaten'),
-(501, 34, 'Pegunungan Arfak ', 'Kabupaten'),
-(502, 34, 'Raja Ampat ', 'Kabupaten'),
-(503, 34, 'Sorong ', 'Kabupaten'),
-(504, 34, 'Sorong Selatan ', 'Kabupaten'),
-(505, 34, 'Tambrauw ', 'Kabupaten'),
-(506, 34, 'Teluk Bintuni ', 'Kabupaten'),
-(507, 34, 'Teluk Wondama ', 'Kabupaten'),
-(508, 34, 'Sorong ', 'Kota');
+(465, 32, 'Tidore Kepulauan', 'Kota'),
+(466, 32, 'Pulau Taliabu', 'Kabupaten'),
+(467, 33, 'Asmat', 'Kabupaten'),
+(468, 33, 'Biak Numfor', 'Kabupaten'),
+(469, 33, 'Boven Digoel', 'Kabupaten'),
+(470, 33, 'Deiyai', 'Kabupaten'),
+(471, 33, 'Dogiyai', 'Kabupaten'),
+(472, 33, 'Intan Jaya', 'Kabupaten'),
+(473, 33, 'Jayapura', 'Kabupaten'),
+(474, 33, 'Jayawijaya', 'Kabupaten'),
+(475, 33, 'Keerom', 'Kabupaten'),
+(476, 33, 'Kepulauan Yapen', 'Kabupaten'),
+(477, 33, 'Lanny Jaya', 'Kabupaten'),
+(478, 33, 'Mamberamo Raya', 'Kabupaten'),
+(479, 33, 'Mamberamo Tengah', 'Kabupaten'),
+(480, 33, 'Mappi', 'Kabupaten'),
+(481, 33, 'Merauke', 'Kabupaten'),
+(482, 33, 'Mimika', 'Kabupaten'),
+(483, 33, 'Nabire', 'Kabupaten'),
+(484, 33, 'Nduga', 'Kabupaten'),
+(485, 33, 'Paniai', 'Kabupaten'),
+(486, 33, 'Pegunungan Bintang', 'Kabupaten'),
+(487, 33, 'Puncak', 'Kabupaten'),
+(488, 33, 'Puncak Jaya', 'Kabupaten'),
+(489, 33, 'Sarmi', 'Kabupaten'),
+(490, 33, 'Supiori', 'Kabupaten'),
+(491, 33, 'Tolikara', 'Kabupaten'),
+(492, 33, 'Waropen', 'Kabupaten'),
+(493, 33, 'Yahukimo', 'Kabupaten'),
+(494, 33, 'Yalimo', 'Kabupaten'),
+(495, 33, 'Jayapura', 'Kota'),
+(496, 34, 'Fakfak', 'Kabupaten'),
+(497, 34, 'Kaimana', 'Kabupaten'),
+(498, 34, 'Manokwari', 'Kabupaten'),
+(499, 34, 'Manokwari Selatan', 'Kabupaten'),
+(500, 34, 'Maybrat', 'Kabupaten'),
+(501, 34, 'Pegunungan Arfak', 'Kabupaten'),
+(502, 34, 'Raja Ampat', 'Kabupaten'),
+(503, 34, 'Sorong', 'Kabupaten'),
+(504, 34, 'Sorong Selatan', 'Kabupaten'),
+(505, 34, 'Tambrauw', 'Kabupaten'),
+(506, 34, 'Teluk Bintuni', 'Kabupaten'),
+(507, 34, 'Teluk Wondama', 'Kabupaten'),
+(508, 34, 'Sorong', 'Kota');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_activity_member`
+--
+
+CREATE TABLE IF NOT EXISTS `log_activity_member` (
+  `log_act_mb_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` char(30) NOT NULL,
+  `act_mb_id` tinyint(3) unsigned NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `imei` varchar(50) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `os` char(5) DEFAULT NULL,
+  PRIMARY KEY (`log_act_mb_id`),
+  KEY `os_version` (`os`),
+  KEY `member_id` (`member_id`),
+  KEY `act_mb_id` (`act_mb_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `log_activity_member`
+--
+
+INSERT INTO `log_activity_member` (`log_act_mb_id`, `member_id`, `act_mb_id`, `time`, `imei`, `ip`, `os`) VALUES
+(1, '3', 2, '2014-03-12 12:33:50', '356299043062056', '118.96.202.238', 'NULL'),
+(2, '3', 2, '2014-03-12 12:39:38', '356299043062056', '118.96.202.238', 'NULL');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_forgot_pswd_member`
+--
+
+CREATE TABLE IF NOT EXISTS `log_forgot_pswd_member` (
+  `id` char(44) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `imei` varchar(50) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_forgot_pswd_store`
+--
+
+CREATE TABLE IF NOT EXISTS `log_forgot_pswd_store` (
+  `id` char(44) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `imei` varchar(50) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `log_forgot_pswd_store`
+--
+
+INSERT INTO `log_forgot_pswd_store` (`id`, `email`, `imei`, `ip`, `time`) VALUES
+('hluj9ZvJsdyQe6tkZ4621D75LVe3ybK/2M/5mDE6Cyo=', 'sagala.aya@dunia.com', '358240055942676', '36.72.111.209', '2014-03-16 05:18:16'),
+('mFja8JMh5Y1AToa2DaZ30Qi5YX+LeovXSAr/hMzwtJQ=', 'robi.tanzil.g@gmail.com', '824043543100136870474483', '118.99.90.53', '2014-03-02 14:04:45');
 
 -- --------------------------------------------------------
 
@@ -1101,17 +1224,34 @@ CREATE TABLE IF NOT EXISTS `loved_store` (
 CREATE TABLE IF NOT EXISTS `member` (
   `member_id` char(30) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `birthdate` date NOT NULL,
+  `birthdate` date DEFAULT NULL,
+  `gender` enum('L','P') DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `address` varchar(300) NOT NULL,
-  `id_kabkota` smallint(5) unsigned NOT NULL,
+  `address` varchar(300) DEFAULT NULL,
+  `id_kabkota` smallint(5) unsigned DEFAULT NULL,
   `pswd` varchar(60) NOT NULL,
   `short_bio` varchar(300) DEFAULT NULL COMMENT 'short biography / description',
   `egg` bigint(20) unsigned NOT NULL,
+  `join_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fl_active` enum('0','1') NOT NULL DEFAULT '0',
+  `fl_blocked` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_id`),
   UNIQUE KEY `email` (`email`),
   KEY `id_kabkota` (`id_kabkota`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `member`
+--
+
+INSERT INTO `member` (`member_id`, `name`, `birthdate`, `gender`, `email`, `address`, `id_kabkota`, `pswd`, `short_bio`, `egg`, `join_date`, `fl_active`, `fl_blocked`) VALUES
+('1', 'Ridwan Effendi', '2014-02-07', 'L', 'ridwan.effendi@vertesac.com', 'Jl. Cisitu Lama VI No 10 B, Dago', 1, 'aZUUNAbEBSp6OxP+WPFom8Odl4Ry4TsZPtqiR6yNNPE=', NULL, 10, '2014-02-18 16:18:19', '1', '0'),
+('2', 'Robi Tanzil G', '2014-02-18', 'L', 'robi.tanzil.g@vertesac.com', '-', 2, 'aZUUNAbEBSp6OxP+WPFom8Odl4Ry4TsZPtqiR6yNNPE=', NULL, 20, '2014-02-24 07:23:50', '1', '0'),
+('3', 'Taufik Akbar', '2014-02-25', 'L', 'taufik@vertesac.com', 'Jl Tubagus Ismail No 22', 22, 'aZUUNAbEBSp6OxP+WPFom8Odl4Ry4TsZPtqiR6yNNPE=', '-', 120, '2014-02-25 14:17:37', '1', '0'),
+('4', 'Atika Astrini', '2014-02-14', 'P', 'atika.astrini@vertesac.com', 'Jl Tubagus Ismail No 22', 78, 'aZUUNAbEBSp6OxP+WPFom8Odl4Ry4TsZPtqiR6yNNPE=', '-', 211, '2014-02-27 04:56:15', '1', '0'),
+('5', 'Dino Fitriza', '2014-02-15', 'L', 'dino.fitriza@vertesac.com', 'Jl Tubagus Ismail No 22', 90, 'aZUUNAbEBSp6OxP+WPFom8Odl4Ry4TsZPtqiR6yNNPE=', '-', 890, '2014-02-27 04:57:42', '1', '0'),
+('6', 'Kresna Akhmadi', '2014-02-23', 'L', 'kresna.akhmadi@vertesac.com', 'Jl Tubagus Ismail No 22', 250, 'aZUUNAbEBSp6OxP+WPFom8Odl4Ry4TsZPtqiR6yNNPE=', 'Gue anak desain', 990, '2014-02-27 05:02:09', '1', '0'),
+('DME8900544071001394026541834J6', 'opik', NULL, NULL, 'opik@vertesac.com', NULL, NULL, 'xPIE4Atf3TPy6wpaLQhkHhNX+tT7VVxLzlu59RuO6PE=', NULL, 100, '2014-03-05 13:35:41', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -1128,16 +1268,27 @@ CREATE TABLE IF NOT EXISTS `member_bag` (
   UNIQUE KEY `bag_id` (`bag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `member_bag`
+--
+
+INSERT INTO `member_bag` (`member_id`, `bag_id`, `time_added`, `fl_active`) VALUES
+('1', 'VB00120140111231749340', '2014-03-03 03:04:00', '2014-03-03 00:00:00'),
+('2', 'VB00120140111231749475', '2014-03-03 03:04:00', '2014-03-03 00:00:00'),
+('3', 'VB00120140111231749631', '2014-03-03 03:04:00', '2014-03-03 00:00:00'),
+('4', 'VB00120140111231749723', '2014-03-03 03:04:00', '2014-03-03 00:00:00'),
+('5', 'VB00120140111231750157', '2014-03-03 03:04:00', '2014-03-03 00:00:00');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `member_fr_photo`
+-- Table structure for table `member_gal_photo`
 --
 
-CREATE TABLE IF NOT EXISTS `member_fr_photo` (
+CREATE TABLE IF NOT EXISTS `member_gal_photo` (
   `photo_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `member_id` char(30) NOT NULL,
-  `photo` varchar(150) NOT NULL,
+  `filename` varchar(150) NOT NULL,
   `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`photo_id`),
   KEY `member_id` (`member_id`)
@@ -1152,11 +1303,11 @@ CREATE TABLE IF NOT EXISTS `member_fr_photo` (
 CREATE TABLE IF NOT EXISTS `member_prf_photo` (
   `photo_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `member_id` char(30) NOT NULL,
-  `photo` varchar(150) NOT NULL,
+  `filename` varchar(150) NOT NULL,
   `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fl_active` enum('1') DEFAULT NULL,
+  `fl_setprofile` enum('1') DEFAULT NULL,
   PRIMARY KEY (`photo_id`),
-  UNIQUE KEY `member_id` (`member_id`,`fl_active`)
+  UNIQUE KEY `member_id` (`member_id`,`fl_setprofile`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1184,7 +1335,7 @@ CREATE TABLE IF NOT EXISTS `promo` (
   `promo_code` char(5) NOT NULL,
   `store_id` char(20) NOT NULL,
   `subject` varchar(150) NOT NULL,
-  `desc` varchar(250) NOT NULL,
+  `description` varchar(250) NOT NULL,
   `photo` varchar(50) NOT NULL,
   `disc` tinyint(3) unsigned DEFAULT NULL COMMENT 'discount',
   `egg` smallint(5) unsigned NOT NULL COMMENT 'eggs per visit',
@@ -1194,26 +1345,35 @@ CREATE TABLE IF NOT EXISTS `promo` (
   PRIMARY KEY (`promo_id`),
   UNIQUE KEY `promo_code` (`store_id`,`promo_code`),
   KEY `store_id` (`store_id`),
-  KEY `discount` (`promo_id`,`disc`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+  KEY `discount` (`promo_id`,`disc`),
+  KEY `time_added` (`promo_id`,`time_added`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `promo`
 --
 
-INSERT INTO `promo` (`promo_id`, `promo_code`, `store_id`, `subject`, `desc`, `photo`, `disc`, `egg`, `time_added`, `start_time`, `end_time`) VALUES
-(13, '237', '1', 'vespa nih bro', 'diskon vespa putih amburadul', 'promo_of_1__1.jpg', 10, 5, '2014-02-02 20:53:58', '2014-02-10', '2014-02-27'),
-(14, '608', '2', 'vespa', 'ini dia', 'promo_of_1_608_.jpg', 10, 5, '2014-02-02 20:55:15', '2014-02-05', '2014-02-28'),
-(15, '1208', '3', 'discount kaos putih update lagi nih', 'sdrfg', 'promo_of_1__2.jpg', 5, 5, '2014-02-02 20:57:53', '2014-02-02', '2014-02-11'),
-(16, '335', '1', 'vespa biru', 'ini dia', 'promo_of_1_335_.jpg', 5, 5, '2014-02-17 10:25:33', '2014-02-17', '2014-02-28'),
-(17, '98', '1', 'ini dia nih update', 'ini dia', 'promo_of_1_98_.jpg', 5, 5, '2014-02-20 06:01:34', '2014-02-20', '2014-02-25'),
-(18, '135', '1', 'asdf', 'df', 'promo_of_1_135_.jpg', 5, 6, '2014-02-20 08:23:36', '2014-02-11', '2014-02-25'),
-(19, '1008', '1', 'bismillah', 'ini dia bismillah', 'promo_of_1_1008_.jpg', 5, 5, '2014-02-24 15:18:19', '2014-02-25', '2014-02-28'),
-(20, '456', '1', 'alhamdulillah', 'alhamdulillah', 'promo_of_1_456_.jpg', 5, 5, '2014-02-24 15:18:49', '2014-02-25', '2014-02-28'),
-(21, '626', '3', 'salemo punya', 'inidia salemo', 'promo_of_3_626_.jpg', 5, 5, '2014-02-25 16:02:53', '2014-02-26', '2014-02-28'),
-(22, '676', '1', 'lagi', 'lagii', 'promo_of_1_676_.jpg', 5, 5, '2014-02-25 16:17:58', '2014-02-27', '2014-03-11'),
-(23, '768', '1', 'lagiiiii', 'asf', 'promo_of_1_768_.jpg', 5, 5, '2014-02-25 16:18:26', '2014-02-12', '2014-02-28'),
-(24, '23', '1', 'satu lagi', 'asdfgasdfgasd', 'promo_of_1_23_.jpg', 5, 5, '2014-02-25 16:18:53', '2014-02-05', '2014-02-20');
+INSERT INTO `promo` (`promo_id`, `promo_code`, `store_id`, `subject`, `description`, `photo`, `disc`, `egg`, `time_added`, `start_time`, `end_time`) VALUES
+(1, 'AAAAA', '1', 'Promo minggu ini', 'Dapatkan promo hingga 1 rupiah.  hanya ada di sagalaaya.com.', 'photo_promo1.jpg', NULL, 10, '2014-02-23 23:29:50', '2014-02-24', '2014-02-26'),
+(2, 'BBBB', '1', 'Promo minggu ini 2', '-', 'photo_promo1.jpg', NULL, 20, '2014-02-27 06:50:29', '2014-02-27', '2014-02-28'),
+(3, 'DDD', '3', 'Promo minggu ini 3', '-', 'photo_promo3.jpg', NULL, 12, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(4, 'EEE', '3', 'Promo minggu ini 4', '-', 'photo_promo4.jpg', NULL, 13, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(5, 'FFF', '4', 'Promo minggu ini 5', '-', 'photo_promo5.jpg', NULL, 14, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(6, 'GGG', '4', 'Promo minggu ini 6', '-', 'photo_promo6.jpg', NULL, 15, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(7, 'HHH', '5', 'Promo minggu ini 7', '-', 'photo_promo7.jpg', NULL, 16, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(8, 'III', '5', 'Promo minggu ini 8', '-', 'photo_promo8.jpg', NULL, 17, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(9, 'JJJ', '6', 'Promo minggu ini 9', '-', 'photo_promo9.jpg', NULL, 18, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(10, 'KKK', '6', 'Promo minggu ini 10', '-', 'photo_promo10.jpg', NULL, 19, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(11, 'LLL', '7', 'Promo minggu ini 11', '-', 'photo_promo11.jpg', NULL, 20, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(12, 'MMM', '7', 'Promo minggu ini 12', '-', 'photo_promo12.jpg', NULL, 21, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(13, 'NNN', '8', 'Promo minggu ini 13', '-', 'photo_promo13.jpg', NULL, 22, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(14, 'OOO', '8', 'Promo minggu ini 14', '-', 'photo_promo14.jpg', NULL, 23, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(15, 'PPP', '9', 'Promo minggu ini 15', '-', 'photo_promo15.jpg', NULL, 24, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(16, 'QQQ', '9', 'Promo minggu ini 16', '-', 'photo_promo16.jpg', NULL, 25, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(17, 'RRR', '10', 'Promo minggu ini 17', '-', 'photo_promo17.jpg', NULL, 26, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(18, 'SSS', '10', 'Promo minggu ini 18', '-', 'photo_promo18.jpg', NULL, 27, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(19, 'TTT', '11', 'Promo minggu ini 19', '-', 'photo_promo19.jpg', NULL, 28, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27'),
+(20, 'UUU', '11', 'Promo minggu ini 20', '-', 'photo_promo20.jpg', NULL, 29, '2014-03-05 14:09:13', '2014-03-26', '2014-03-27');
 
 -- --------------------------------------------------------
 
@@ -1278,16 +1438,7 @@ CREATE TABLE IF NOT EXISTS `social_media` (
   `name` varchar(150) NOT NULL,
   `icon` varchar(50) NOT NULL,
   PRIMARY KEY (`socme_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `social_media`
---
-
-INSERT INTO `social_media` (`socme_id`, `name`, `icon`) VALUES
-(1, 'facebook', 'Facebook Click.png'),
-(2, 'twitter', 'Twitter Click.png'),
-(3, 'instagram', 'pt.png');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1299,20 +1450,22 @@ CREATE TABLE IF NOT EXISTS `store` (
   `store_id` char(20) NOT NULL,
   `store_type_id` tinyint(3) unsigned NOT NULL,
   `mrc_id` char(30) NOT NULL COMMENT 'merchant_id / secondary_id',
-  `photo` varchar(100) DEFAULT NULL,
   `name` varchar(70) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `password` text NOT NULL,
+  `pswd` varchar(100) NOT NULL,
   `address` varchar(300) NOT NULL,
   `id_kabkota` smallint(5) unsigned NOT NULL,
+  `latitude` float NOT NULL DEFAULT '0',
+  `longitude` float NOT NULL DEFAULT '0',
   `egg` bigint(20) unsigned NOT NULL DEFAULT '0',
   `slogan` varchar(150) NOT NULL,
-  `desc` tinytext NOT NULL COMMENT 'description',
+  `description` text NOT NULL COMMENT 'description',
   `site` varchar(30) DEFAULT NULL,
   `rating` float(5,4) NOT NULL DEFAULT '0.0000',
   PRIMARY KEY (`store_id`),
   UNIQUE KEY `mrc_id` (`mrc_id`),
   UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `password` (`email`,`pswd`),
   KEY `id_kabkota` (`id_kabkota`),
   KEY `store_type_id` (`store_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1321,48 +1474,97 @@ CREATE TABLE IF NOT EXISTS `store` (
 -- Dumping data for table `store`
 --
 
-INSERT INTO `store` (`store_id`, `store_type_id`, `mrc_id`, `photo`, `name`, `email`, `password`, `address`, `id_kabkota`, `egg`, `slogan`, `desc`, `site`, `rating`) VALUES
-('1', 5, '1', 'profile_of_12.jpg', 'asik juga yaaa', 'kapuyuak@gmail.com', '064f10efd15daf207478c0dbfcf22a4d', 'Jalan gagak no 144', 69, 50, 'maju bersama dalam suka', 'alhamdulillahirabbil''alamin', 'sukamajumaju.com', 0.1500),
-('2', 1, '2', 'Stores-11.png', 'kapindiang', 'kapindiang@email.com', 'df1ff0682bf479d44386b503253e783d', 'jalan kapindiang', 4, 6, 'jaya barokah', 'ini dia nih kapindiang shop', 'kapindiang.com', 0.1500),
-('3', 2, '3', 'profile_of_3.jpg', 'salemo', 'salemo@email.com', '925ffb12db68a68cf49ae13d8cc7f2cd', 'jalan salemo', 66, 15, 'salemo baetai', 'ini nih salemo', 'salemo.com', 0.1500),
-('4', 4, '4', 'Stores-11.png', 'lipeh', 'lipeh@email.com', 'bdae386f27fd1939c1b5e78ab50ac78f', 'jalan lipeh', 44, 15, 'lipeh panggali', 'ini lipeh dari alam sana', 'lipeh.com', 0.1400);
+INSERT INTO `store` (`store_id`, `store_type_id`, `mrc_id`, `name`, `email`, `pswd`, `address`, `id_kabkota`, `latitude`, `longitude`, `egg`, `slogan`, `description`, `site`, `rating`) VALUES
+('1', 1, 'CC206', 'Toko Sagala Aya', 'sagala.aya@dunia.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl. Surga Gg. Neraka No 69', 1, 0, 0, 500, 'Kami menjual segalanya', ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi bibendum tincidunt nisi, at convallis diam feugiat eget. Praesent sit amet mauris accumsan, aliquam turpis eget, tincidunt lorem. Quisque tempor dictum fringilla. Sed leo nunc, aliquam quis nunc id, luctus euismod lorem. Pellentesque ac elit tellus. Praesent elementum consectetur tortor, ut accumsan tortor tincidunt blandit. Etiam commodo, dolor ac elementum pellentesque, est lacus mattis enim, non rutrum ipsum nibh at dolor. Quisque non odio a nibh aliquam interdum nec non sem. Mauris dapibus justo sed congue porttitor. Nam at nunc ante. Donec molestie metus non rutrum eleifend. Praesent at nisi dolor. Donec tortor sem, dictum in iaculis sit amet, rhoncus vel sapien. ', 'www.google.com', 3.6150),
+('10', 1, 'JT205', 'Indomaret 7', 'indomaret7@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('11', 1, 'JT206', 'Indomaret 8', 'indomaret8@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('12', 1, 'JT207', 'Indomaret 9', 'indomaret9@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('13', 1, 'JT208', 'Indomaret 10', 'indomaret10@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('14', 1, 'JT209', 'Indomaret 11', 'indomaret11@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('15', 1, 'JT210', 'Indomaret 12', 'indomaret12@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('16', 1, 'JT211', 'Indomaret 13', 'indomaret13@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('17', 1, 'JT212', 'Indomaret 14', 'indomaret14@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('2', 4, 'CC201', 'Starbucks Coffe', 'starbucks@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 132, 0, 0, 510, 'Best Coffe Shop In The City', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s', 'starbucks.com', 0.0000),
+('3', 3, 'CC204', '22 Reborn System', 'robi.tanzil.g@gmail.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 52, 0, 0, 120, 'New Spirit', 'Nothing', NULL, 0.0000),
+('4', 1, 'JT298', 'Indomaret', 'indomaret@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('5', 1, 'JT200', 'Indomaret 2', 'indomaret2@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('6', 1, 'JT201', 'Indomaret 3', 'indomaret3@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('7', 1, 'JT202', 'Indomaret 4', 'indomaret4@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('8', 1, 'JT203', 'Indomaret 5', 'indomaret5@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000),
+('9', 1, 'JT204', 'Indomaret 6', 'indomaret6@google.com', '6QsrZNMoo7egluyINEsD7GclY1Nav9z2L+E8cI7Tt88=', 'Jl Tubagus Ismail No 22', 123, 0, 0, 260, 'Indomaret no 1', '-', NULL, 0.0000);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `store_photo`
+-- Table structure for table `store_cover_photo`
 --
 
-CREATE TABLE IF NOT EXISTS `store_photo` (
+CREATE TABLE IF NOT EXISTS `store_cover_photo` (
+  `cover_photo_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `store_id` char(20) NOT NULL,
+  `filename` varchar(150) NOT NULL,
+  `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fl_setcover` enum('1') DEFAULT NULL,
+  PRIMARY KEY (`cover_photo_id`),
+  UNIQUE KEY `cover_photo` (`store_id`,`fl_setcover`),
+  KEY `store_id` (`store_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `store_cover_photo`
+--
+
+INSERT INTO `store_cover_photo` (`cover_photo_id`, `store_id`, `filename`, `time_added`, `fl_setcover`) VALUES
+(1, '1', 'cover1', '2014-02-23 23:10:24', '1'),
+(2, '1', 'cover2', '2014-02-23 23:10:24', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `store_gal_photo`
+--
+
+CREATE TABLE IF NOT EXISTS `store_gal_photo` (
   `photo_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `store_id` char(20) NOT NULL,
-  `photo` varchar(150) NOT NULL,
-  `nama` varchar(100) NOT NULL,
+  `filename` varchar(150) NOT NULL,
   `time_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fl_active` enum('1') DEFAULT NULL,
   PRIMARY KEY (`photo_id`),
   KEY `store_id` (`store_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `store_photo`
+-- Dumping data for table `store_gal_photo`
 --
 
-INSERT INTO `store_photo` (`photo_id`, `store_id`, `photo`, `nama`, `time_added`, `fl_active`) VALUES
-(4, '4', 'Stores-14.png', 'disini', '2014-01-19 12:39:12', '1'),
-(9, '1', 'photo_of_1_6942_.jpg', 'ini foto ke 2', '2014-02-24 15:06:00', '1'),
-(10, '1', 'photo_of_1_13871_.jpg', '2', '2014-02-24 15:06:08', '1'),
-(11, '1', 'photo_of_1_6862_.jpg', '3', '2014-02-24 15:06:20', '1'),
-(12, '1', 'photo_of_1_3773_.jpg', '4', '2014-02-24 15:06:26', '1'),
-(13, '1', 'photo_of_1_5900_.jpg', '5', '2014-02-24 15:06:33', '1'),
-(14, '1', 'photo_of_1_2615_.jpg', '6', '2014-02-24 15:06:42', '1'),
-(15, '1', 'photo_of_1_5875_.jpg', '7', '2014-02-24 15:06:59', '1'),
-(16, '1', 'photo_of_1_9477_.jpg', '8', '2014-02-24 15:07:12', '1'),
-(17, '1', 'photo_of_1_13450_.jpg', '9', '2014-02-24 15:07:18', '1'),
-(18, '1', 'photo_of_1_7867_.jpg', '10', '2014-02-24 15:07:24', '1'),
-(19, '1', 'photo_of_1_8781_.jpg', '11', '2014-02-24 15:07:31', '1'),
-(20, '3', 'photo_of_3_14650_.jpg', 'vespa salemo', '2014-02-25 16:02:27', '1'),
-(21, '3', 'photo_of_3_11451_.jpg', 'salemo deui', '2014-02-25 16:05:55', '1');
+INSERT INTO `store_gal_photo` (`photo_id`, `store_id`, `filename`, `time_added`) VALUES
+(1, '1', 'photo1.jpg', '2014-02-23 23:00:37'),
+(2, '1', 'photo2.jpg', '2014-02-23 23:01:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `store_prf_photo`
+--
+
+CREATE TABLE IF NOT EXISTS `store_prf_photo` (
+  `photo_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `store_id` char(20) NOT NULL,
+  `filename` varchar(150) NOT NULL,
+  `time_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `fl_setprofile` enum('1') DEFAULT NULL,
+  PRIMARY KEY (`photo_id`),
+  UNIQUE KEY `profile_photo` (`store_id`,`fl_setprofile`),
+  KEY `store_id` (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `store_prf_photo`
+--
+
+INSERT INTO `store_prf_photo` (`photo_id`, `store_id`, `filename`, `time_added`, `fl_setprofile`) VALUES
+(1, '1', 'photo1.jpg', '2014-02-23 16:00:37', NULL),
+(2, '1', 'photo2.jpg', '2014-02-23 16:01:41', '1');
 
 -- --------------------------------------------------------
 
@@ -1391,18 +1593,6 @@ CREATE TABLE IF NOT EXISTS `store_socme` (
   UNIQUE KEY `store_id` (`store_id`,`socme_id`),
   KEY `socme_id` (`socme_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `store_socme`
---
-
-INSERT INTO `store_socme` (`store_id`, `socme_id`, `url`) VALUES
-('1', 1, 'sukamajuni'),
-('1', 2, 'sukamajuni'),
-('1', 3, 'sukamajuni'),
-('3', 1, 'salemo'),
-('3', 2, 'salemo'),
-('3', 3, 'salemo');
 
 -- --------------------------------------------------------
 
@@ -1443,7 +1633,23 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   KEY `store_id` (`store_id`),
   KEY `member_id` (`member_id`),
   KEY `member_bag` (`member_id`,`bag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`transaction_id`, `store_id`, `member_id`, `bag_id`, `time`) VALUES
+(1, '1', '1', 'VB00120140111231749340', '2014-02-24 07:18:44'),
+(2, '1', '2', 'VB00120140111231749475', '2014-02-24 07:24:32'),
+(3, '1', '2', 'VB00120140111231749475', '2014-02-26 22:05:38'),
+(4, '1', '3', 'VB00120140111231749631', '2014-02-26 22:09:51'),
+(5, '1', '3', 'VB00120140111231749631', '2014-02-27 22:09:51'),
+(6, '1', '4', 'VB00120140111231749723', '2014-02-27 22:09:51'),
+(7, '1', '5', 'VB00120140111231750157', '2014-02-27 22:09:51'),
+(8, '1', '5', 'VB00120140111231750157', '2014-02-28 22:09:51'),
+(9, '1', '5', 'VB00120140111231750157', '2014-03-01 22:09:51'),
+(10, '1', '5', 'VB00120140111231750157', '2014-03-02 22:09:51');
 
 -- --------------------------------------------------------
 
@@ -1458,6 +1664,23 @@ CREATE TABLE IF NOT EXISTS `transaction_detail` (
   UNIQUE KEY `transaction_id` (`transaction_id`,`promo_id`),
   KEY `promo_id` (`promo_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transaction_detail`
+--
+
+INSERT INTO `transaction_detail` (`transaction_id`, `promo_id`, `qty`) VALUES
+(1, 1, 3),
+(2, 1, 2),
+(2, 2, 2),
+(3, 1, 1),
+(4, 1, 1),
+(5, 1, 1),
+(6, 1, 1),
+(7, 1, 1),
+(8, 1, 1),
+(9, 1, 1),
+(10, 1, 1);
 
 --
 -- Constraints for dumped tables
@@ -1482,6 +1705,13 @@ ALTER TABLE `bag_photo`
   ADD CONSTRAINT `bag_photo_ibfk_1` FOREIGN KEY (`bag_type_id`) REFERENCES `bag_type` (`bag_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `egg_transaction`
+--
+ALTER TABLE `egg_transaction`
+  ADD CONSTRAINT `egg_transaction_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `egg_transaction_ibfk_2` FOREIGN KEY (`egg_package_id`) REFERENCES `egg_package` (`egg_package_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `friends`
 --
 ALTER TABLE `friends`
@@ -1493,6 +1723,13 @@ ALTER TABLE `friends`
 --
 ALTER TABLE `kabkota`
   ADD CONSTRAINT `kabkota_ibfk_1` FOREIGN KEY (`id_provinsi`) REFERENCES `provinsi` (`id_provinsi`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `log_activity_member`
+--
+ALTER TABLE `log_activity_member`
+  ADD CONSTRAINT `log_activity_member_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `log_activity_member_ibfk_2` FOREIGN KEY (`act_mb_id`) REFERENCES `activity_member` (`act_mb_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `loved_store`
@@ -1515,10 +1752,10 @@ ALTER TABLE `member_bag`
   ADD CONSTRAINT `member_bag_ibfk_2` FOREIGN KEY (`bag_id`) REFERENCES `bag` (`bag_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `member_fr_photo`
+-- Constraints for table `member_gal_photo`
 --
-ALTER TABLE `member_fr_photo`
-  ADD CONSTRAINT `member_fr_photo_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `member_gal_photo`
+  ADD CONSTRAINT `member_gal_photo_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `member_prf_photo`
@@ -1547,10 +1784,16 @@ ALTER TABLE `store`
   ADD CONSTRAINT `store_ibfk_2` FOREIGN KEY (`id_kabkota`) REFERENCES `kabkota` (`id_kabkota`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `store_photo`
+-- Constraints for table `store_gal_photo`
 --
-ALTER TABLE `store_photo`
-  ADD CONSTRAINT `store_photo_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `store_gal_photo`
+  ADD CONSTRAINT `store_gal_photo_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `store_prf_photo`
+--
+ALTER TABLE `store_prf_photo`
+  ADD CONSTRAINT `store_prf_photo_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `store_rating`

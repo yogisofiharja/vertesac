@@ -12,8 +12,9 @@ class Login extends CI_Controller {
 		}else if($user_type == 'store'){
 			$store = new Store_model();
 			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-			$result = $store->login($email, $password);
+			$pswd = $this->input->post('password');
+			$pswd = $this->encrypt($pswd, "store_password");
+			$result = $store->login($email, $pswd);
 
 			if($result){
 				$sess_array = array();
@@ -29,7 +30,7 @@ class Login extends CI_Controller {
 				redirect('store');
 			}else{
 				$this->session->set_flashdata('status', "error");
-				redirect('welcome');
+				//redirect('welcome');
 			}
 		}else if($user_type == "admin"){
 
@@ -41,5 +42,13 @@ class Login extends CI_Controller {
 		$this->session->unset_userdata('logged_in');
 		session_destroy();
    		redirect('welcome');
+	}
+
+	function encrypt($text, $salt){
+		return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $salt, $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))));
+	}
+
+	function decrypt($text, $key){
+		return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, base64_decode($text), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
 	}
 }

@@ -4,7 +4,7 @@ class Store_model extends CI_Model{
 	var $store_type_id='';
 	var $name='';
 	var $email='';
-	var $password='';
+	var $pswd='';
 	var $address='';
 	var $id_kabkota='';
 	var $egg='';
@@ -17,11 +17,11 @@ class Store_model extends CI_Model{
 	var $photo='';
 
 	//store login procces
-	function login($email, $password){
-		$this->db->select('store_id, email, password');
+	function login($email, $pswd){
+		$this->db->select('store_id, email, pswd');
 		$this->db->from('store');
 		$this->db->where('email', $email);
-		$this->db->where('password', MD5($password));
+		$this->db->where('pswd', $pswd);
 		$this->db->limit(1);
 		$query = $this->db->get();
 		if($query->num_rows()==1){
@@ -33,7 +33,7 @@ class Store_model extends CI_Model{
 
 	//model for store administrator
 	function get_store_profile($store_id){
-		$q = $this->db->query("select s.*, st.name as store_type, k.nama as kabupaten, pr.nama as provinsi, count(p.store_id) as jumlah_promo from provinsi pr, store s, kabkota k, promo p, store_photo sp, store_type st where s.store_type_id=st.store_type_id and s.store_id=p.store_id and sp.store_id=s.store_id and s.id_kabkota=k.id_kabkota and k.id_provinsi = pr.id_provinsi and s.store_id =" .$store_id);
+		$q = $this->db->query("select s.*, st.name as store_type, k.nama as kabupaten, pr.nama as provinsi, count(p.store_id) as jumlah_promo from provinsi pr, store s, kabkota k, promo p, store_gal_photo sp, store_type st where s.store_type_id=st.store_type_id and s.store_id=p.store_id and sp.store_id=s.store_id and s.id_kabkota=k.id_kabkota and k.id_provinsi = pr.id_provinsi and s.store_id =" .$store_id);
 		return $q->result();
 	}
 
