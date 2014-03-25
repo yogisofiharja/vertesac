@@ -14,7 +14,7 @@ class Store_model extends CI_Model{
 	var $rating='';
 	var $socme_id='';
 	var $url='';
-	var $photo='';
+	var $filename='';
 
 	//store login procces
 	function login($email, $pswd){
@@ -33,7 +33,26 @@ class Store_model extends CI_Model{
 
 	//model for store administrator
 	function get_store_profile($store_id){
-		$q = $this->db->query("select s.*, st.name as store_type, k.nama as kabupaten, pr.nama as provinsi, count(p.store_id) as jumlah_promo from provinsi pr, store s, kabkota k, promo p, store_gal_photo sp, store_type st where s.store_type_id=st.store_type_id and s.store_id=p.store_id and sp.store_id=s.store_id and s.id_kabkota=k.id_kabkota and k.id_provinsi = pr.id_provinsi and s.store_id =" .$store_id);
+		$q = $this->db->query("select 
+			s . *,
+			sp . *,
+			spp.filename,
+			st.name as store_type,
+			k.nama as kabupaten,
+			pr.nama as provinsi,
+			count(p.store_id) as jumlah_promo
+			from
+			provinsi pr,
+			kabkota k,store s
+			left join promo p on s.store_id = p.store_id
+			left join store_gal_photo sp on s.store_id = sp.store_id
+			left join store_type st on s.store_type_id = st.store_type_id
+			left join store_prf_photo spp on s.store_id = spp.store_id
+			where
+			s.id_kabkota = k.id_kabkota
+			and k.id_provinsi = pr.id_provinsi
+			and spp.fl_setprofile=1
+			and s.store_id =".$store_id);
 		return $q->result();
 	}
 
@@ -53,6 +72,21 @@ class Store_model extends CI_Model{
 			'url' => $this->url
 			);
 		$this->db->insert('store_socme', $data);
+	}
+
+	function set_profile_photo($store_id){
+		$this->db->query("update store_prf_photo 
+			set 
+			fl_setprofile = NULL
+			where
+			 fl_setprofile = 1 and store_id = ".$store_id);
+
+		$data=array(
+			'store_id' => $store_id,
+			'filename' => $this->filename,
+			'fl_setprofile' => 1
+			);
+		$this->db->insert("store_prf_photo", $data);
 	}
 
 	function count_socmed(){
@@ -86,11 +120,11 @@ class Store_model extends CI_Model{
 			'address'=> $this->address,
 			'id_kabkota'=> $this->id_kabkota,
 			'slogan'=> $this->slogan,
-			'desc'=> $this->desc,
-			'site'=> $this->site,
-			'photo'=> $this->photo
+			'description'=> $this->desc,
+			'site'=> $this->site
+			// 'photo'=> $this->photo
 
-		);
+			);
 		$this->db->where('store_id', $store_id);
 		$this->db->update('store', $data);
 	}

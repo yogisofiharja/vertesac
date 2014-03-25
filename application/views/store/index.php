@@ -15,9 +15,9 @@ include 'header.php';
 	<div id="info-profile">
 		<div id="info-left">
 			<div id="box-info-left">
-				<?php if(!empty($profile[0]->photo)){
+				<?php if(!empty($profile[0]->filename)){
 					?>
-					<img src="<?php echo base_url();?>asset/photo/store/profile/<?php echo $profile[0]->photo;?>" /> 
+					<img src="<?php echo base_url();?>media/images/store/profile/<?php echo $profile[0]->filename;?>" /> 
 					<?php
 				}else{
 					?>
@@ -62,7 +62,9 @@ include 'header.php';
 			<div id="box-recent-promo">
 
 				<div id="box-recent-promo-img">
-					<a href="index.php?module=promoedit&id=<?php echo $recent->promo_id;?>" class="link"><img src="<?php echo base_url();?>asset/photo/promo/<?php echo $recent->photo;?>"></a>
+					<a href="index.php?module=promoedit&id=<?php echo $recent->promo_id;?>" class="link">
+						<img src="<?php echo base_url();?>media/images/store/promo/<?php echo $recent->photo;?>">
+					</a>
 				</div>
 				<div id="box-recent-promo-detail">
 					<a href="index.php?module=promoedit&id=<?php echo $recent->promo_id;?>" class="link"><h5 class="desk-promo"><?php echo $recent->subject;?></h5></a>

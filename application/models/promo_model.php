@@ -40,7 +40,7 @@ class Promo_model extends CI_Model{
 			'promo_code' => $this->promo_code,
 			'store_id' => $store_id,
 			'subject' => $this->subject,
-			'desc' => $this->desc,
+			'description' => $this->desc,
 			'photo' => $this->photo,
 			'disc' => $this->disc,
 			'egg' => $this->egg,
@@ -54,7 +54,7 @@ class Promo_model extends CI_Model{
 		if($this->photo){
 			$data = array(
 				'subject' => $this->subject,
-				'desc' => $this->desc,
+				'description' => $this->desc,
 				'disc' => $this->disc,
 				'egg' => $this->egg,
 				'start_time' => $this->start_time,
@@ -67,7 +67,7 @@ class Promo_model extends CI_Model{
 		}else{
 			$data = array(
 				'subject' => $this->subject,
-				'desc' => $this->desc,
+				'description' => $this->desc,
 				'disc' => $this->disc,
 				'egg' => $this->egg,
 				'start_time' => $this->start_time,

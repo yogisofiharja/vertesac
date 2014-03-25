@@ -43,7 +43,7 @@ class Promo extends CI_Controller {
 		$promo->end_time = date("Y-m-d",strtotime($this->input->post('end_time')));
 		$promo->promo_code = rand(1, 1500);
 
-		$config['upload_path'] = './asset/photo/promo/';
+		$config['upload_path'] = './media/images/store/promo/';
 		$config['allowed_types'] = 'gif|jpg|png|jpeg';
 		$config['file_name'] = 'promo_of_'.$store_id.'_'.$promo->promo_code.'_';
 		$config['max_size']='50000';
@@ -84,7 +84,7 @@ class Promo extends CI_Controller {
 		if(isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])){
 			// echo "foto ada";exit;
 			exec("rm ./asset/photo/promo/".$this->input->post('photo'));
-			$config['upload_path'] = './asset/photo/promo/';
+			$config['upload_path'] = './media/images/store/promo/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$config['file_name'] = 'promo_of_'.$store_id.'_'.$promo->promo_code.'_';
 			$config['max_size']='50000';

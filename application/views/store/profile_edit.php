@@ -40,9 +40,9 @@ function kabkota(){
 	<form action="<?php echo base_url();?>store/profile/update" method="POST" enctype="multipart/form-data">
 		<div id="profile-setting-left">
 			<div id="box-img-profile">
-				<?php if(!empty($profile[0]->photo)){
+				<?php if(!empty($profile[0]->filename)){
 					?>
-					<img src="<?php echo base_url();?>asset/photo/store/profile/<?php echo $profile[0]->photo;?>" /> 
+					<img src="<?php echo base_url();?>media/images/store/profile/<?php echo $profile[0]->filename;?>" /> 
 					<?php
 				}else{
 					?>

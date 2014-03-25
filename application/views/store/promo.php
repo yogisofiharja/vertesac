@@ -21,7 +21,7 @@ include 'header.php';
 			?>
 			<div id="box-product">
 				<div id="box-img">
-					<img src="<?php echo base_url();?>asset/photo/promo/<?php echo $promo->photo;?>" title="<?php echo $promo->subject;?>"><br>
+					<img src="<?php echo base_url();?>media/images/store/promo/<?php echo $promo->photo;?>" title="<?php echo $promo->subject;?>"><br>
 				</div>
 				<div id="detail-promo">
 					<h3 class="get-promo"><?php echo $promo->subject;?></h3><br/><br/>

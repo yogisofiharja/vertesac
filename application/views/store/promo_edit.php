@@ -22,7 +22,7 @@ $end_time = date("m/d/Y",strtotime($promo[0]->end_time));
 		<div id="profile-setting-left">
 			
 			<div id="box-img-profile">
-				<img src="<?php echo base_url();?>asset/photo/promo/<?php echo $promo[0]->photo;?>">
+				<img src="<?php echo base_url();?>media/images/store/promo/<?php echo $promo[0]->photo;?>">
 			</div>
 
 			<div id='file_browse_wrapper_profile'>
@@ -37,7 +37,7 @@ $end_time = date("m/d/Y",strtotime($promo[0]->end_time));
 			<input type="text" name="subject" placeholder="Enter Data Here.." class="input-data-profile" value="<?php echo $promo[0]->subject;?>"><br>
 			<label class="judul">Description</label>
 			<span class="error" id="eket"></span><br>
-			<textarea placeholder="Enter Data Here.." name="keterangan"><?php echo $promo[0]->desc;?></textarea>
+			<textarea placeholder="Enter Data Here.." name="keterangan"><?php echo $promo[0]->description;?></textarea>
 			<br>
 			<label class="judul">Discount</label>
 			<span class="error" id="ediskon"></span><br>

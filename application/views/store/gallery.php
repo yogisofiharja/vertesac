@@ -27,11 +27,9 @@ echo "</pre>";*/
 			?>
 			<div id="box-photo">
 				<div id="box-img">
-					<img src="<?php echo base_url();?>asset/photo/store/<?php echo $photo->photo?>"><br>
-					<button id="vis-btn-promo" onclick="editgaleri('<?php echo $photo->photo_id;?>','<?php echo $photo->nama;?>','<?php echo $photo->photo;?>');">Edit Photo</button>
+					<img src="<?php echo base_url();?>media/images/store/gallery/<?php echo $photo->filename?>"><br>
 				</div>
 				<a href="<?php echo base_url();?>store/gallery/delete/<?php echo $photo->photo_id;?>"><img src="<?php echo base_url();?>asset/logged-in/images/delete.png" width="12" height="12" style="margin-left: -12px; margin-top:-1px; cursor: pointer; position:absolute;" onClick="return confirm('Delete This Image?')" title="Delete"></a>
-				<p class="photo-name" ><?php echo $photo->nama;?></p>
 			</div>
 			
 			<?php
@@ -51,8 +49,6 @@ echo "</pre>";*/
 				</div>
 			</div>
 			<div id="fm-add-product-right">
-				<label class="input-label" >Title</label><span class="error" id="eaddpromo"></span><br>
-				<input type="text" name="nama" class="add-product-input" max-size="20" placeholder="Enter Data Here.."><span class="error" id="etitle"></span><br>
 				<input type="submit" value="Simpan" name="post-add-galeri" class="add-product-save" style="background-image:url('<?php echo base_url();?>asset/logged-in/images/1.png'); background-repeat:no-repeat; background-size:23px 23px; background-position:10% 50%;">
 			</div>
 		</form>

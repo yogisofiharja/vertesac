@@ -32,16 +32,15 @@ class Gallery extends CI_Controller {
 	public function save(){
 		$store_id=$this->session->userdata('logged_in')['store_id'];
 		$gallery = new Gallery_model();
-		$gallery->nama = $this->input->post('nama');
 		$nomor = rand(500, 15000);
-		$config['upload_path'] = './asset/photo/store/';
+		$config['upload_path'] = './media/images/store/gallery/';
 		$config['allowed_types'] = 'gif|jpg|png|jpeg';
 		$config['file_name'] = 'photo_of_'.$store_id.'_'.$nomor.'_';
 		$config['max_size']='50000';
 		
 		$this->load->library('upload', $config);
 		if($this->upload->do_upload('file')){
-			$gallery->photo=$this->upload->data()['file_name'];
+			$gallery->filename=$this->upload->data()['file_name'];
 			$gallery->save($store_id);
 			redirect('store/gallery');
 		}else{

@@ -44,25 +44,26 @@ class Profile extends CI_Controller {
 		$store->slogan = $this->input->post('slogan');
 		$store->site = $this->input->post('site');
 		$store->desc = $this->input->post('desc');
+		$store->edit($store_id);
 		
 		$socmed = array();
 		if(isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])){
 			//hapus foto lama
-			exec("rm ./asset/photo/store/profile/".$this->input->post('photo'));
+			// exec("rm ./asset/photo/store/profile/".$this->input->post('photo'));
 
-			$config['upload_path'] = './asset/photo/store/profile/';
+			$config['upload_path'] = './media/images/store/profile/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
-			$config['file_name'] = 'profile_of_'.$store_id;
+			$config['file_name'] = 'profile_of_'.$store_id.'_';
 			$config['max_size']='50000';
 
 			$this->load->library('upload', $config);
 			if($this->upload->do_upload('file')){
-				$store->photo=$this->upload->data()['file_name'];
+				$store->filename=$this->upload->data()['file_name'];
 				/*print "<pre>";
 				print_r($this->upload->data());
 				print "</pre>";
 				echo $store->photo;*/
-				$store->edit($store_id);
+				$store->set_profile_photo($store_id);
 				for($i=1;$i<=$store->count_socmed();$i++){
 					if($this->input->post('socmed')[$i]!=""){
 						$socmed[$i] = $this->input->post('socmed')[$i];
