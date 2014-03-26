@@ -42,7 +42,7 @@ function kabkota(){
 			<div id="box-img-profile">
 				<?php if(!empty($profile[0]->filename)){
 					?>
-					<img src="<?php echo base_url();?>media/images/store/profile/<?php echo $profile[0]->filename;?>" /> 
+					<img src="<?php echo base_url();?>timthumb/timthumb.php?src=media/images/store/profile/<?php echo $profile[0]->filename;?>&w=210&h=200" /> 
 					<?php
 				}else{
 					?>

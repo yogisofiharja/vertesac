@@ -23,14 +23,14 @@ class Login extends CI_Controller {
 						'store_id' => $row->store_id,
 						'email' => $row->email,
 						'user_type' => "store"
-					);
+						);
 					$this->session->set_userdata('logged_in', $sess_array);
 				}
-				// print_r($this->session->userdata('logged_in')['store_id']);
+// print_r($this->session->userdata('logged_in')['store_id']);
 				redirect('store');
 			}else{
 				$this->session->set_flashdata('status', "error");
-				//redirect('welcome');
+//redirect('welcome');
 			}
 		}else if($user_type == "admin"){
 
@@ -41,7 +41,7 @@ class Login extends CI_Controller {
 	public function logout(){
 		$this->session->unset_userdata('logged_in');
 		session_destroy();
-   		redirect('welcome');
+		redirect('welcome');
 	}
 
 	function encrypt($text, $salt){

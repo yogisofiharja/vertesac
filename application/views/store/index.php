@@ -17,7 +17,7 @@ include 'header.php';
 			<div id="box-info-left">
 				<?php if(!empty($profile[0]->filename)){
 					?>
-					<img src="<?php echo base_url();?>media/images/store/profile/<?php echo $profile[0]->filename;?>" /> 
+					<img src="<?php echo base_url();?>timthumb/timthumb.php?src=media/images/store/profile/<?php echo $profile[0]->filename;?>&w=180&h=240" /> 
 					<?php
 				}else{
 					?>
@@ -25,7 +25,6 @@ include 'header.php';
 					<?php
 				}
 				?>
-				<!-- <img src="<?php echo base_url();?>asset/photo/store/<?php echo $profile[0]->photo;?>"/> -->
 			</div>
 			<h2 class="retail-store"><?php echo $profile[0]->store_type;?></h2>
 		</div>
@@ -41,8 +40,8 @@ include 'header.php';
 			<?php
 			foreach ($store_socmed as $socmed) {
 				?>
-					<img src="<?php echo base_url();?>asset/logged-in/images/social icons/<?php echo $socmed->icon;?>" style="float:left; margin-right:10px;">
-					<a href="<?php echo 'http://www.'.$socmed->name.'.com/'.$socmed->url;?>" class="link" target="_blank"><p class="sosmed-merchant-fb"><?php echo $socmed->url;?></p></a><br/><br/>
+				<img src="<?php echo base_url();?>asset/logged-in/images/social icons/<?php echo $socmed->icon;?>" style="float:left; margin-right:10px;">
+				<a href="<?php echo 'http://www.'.$socmed->name.'.com/'.$socmed->url;?>" class="link" target="_blank"><p class="sosmed-merchant-fb"><?php echo $socmed->url;?></p></a><br/><br/>
 				<?php	
 			}
 			?>
@@ -63,7 +62,7 @@ include 'header.php';
 
 				<div id="box-recent-promo-img">
 					<a href="index.php?module=promoedit&id=<?php echo $recent->promo_id;?>" class="link">
-						<img src="<?php echo base_url();?>media/images/store/promo/<?php echo $recent->photo;?>">
+						<img src="<?php echo base_url();?>timthumb/timthumb.php?src=media/images/store/promo/<?php echo $recent->photo;?>&w=120&h=110">
 					</a>
 				</div>
 				<div id="box-recent-promo-detail">

@@ -27,7 +27,7 @@ echo "</pre>";*/
 			?>
 			<div id="box-photo">
 				<div id="box-img">
-					<img src="<?php echo base_url();?>media/images/store/gallery/<?php echo $photo->filename?>"><br>
+					<img src="<?php echo base_url();?>timthumb/timthumb.php?src=media/images/store/gallery/<?php echo $photo->filename?>&w=130&h=120"><br>
 				</div>
 				<a href="<?php echo base_url();?>store/gallery/delete/<?php echo $photo->photo_id;?>"><img src="<?php echo base_url();?>asset/logged-in/images/delete.png" width="12" height="12" style="margin-left: -12px; margin-top:-1px; cursor: pointer; position:absolute;" onClick="return confirm('Delete This Image?')" title="Delete"></a>
 			</div>

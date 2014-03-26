@@ -1,4 +1,4 @@
 RewriteEngine on
 RewriteBase /vertesac
-RewriteCond $1 !^(index\.php|asset|media)
+RewriteCond $1 !^(index\.php|asset|media|timthumb)
 RewriteRule ^(.*)$ index.php/$1 [L]

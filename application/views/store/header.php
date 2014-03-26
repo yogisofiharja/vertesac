@@ -74,8 +74,8 @@
 			<ul class="top-menu">
 				<li class="border"><a href="<?php echo base_url('store')?>"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-09.png" alt="Vertesac Website_Merchant Profile-09" class="menu-merchant-img"><br><p class="menu-merchant-title">Profile</p></a></li>
 				<li class="border"><a href="<?php echo base_url('store/promo')?>"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-10.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Promo</p></a></li>
-				<!-- <li class="border"><a href="#"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-11.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Inventory</p></a></li> -->
 				<li class="border"><a href="<?php echo base_url('store/gallery')?>"><img src="<?php echo base_url();?>asset/logged-in/images/pt.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Photo</p></a></li>
+				<li class="border"><a href="<?php echo base_url('store/transaction')?>"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-11.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Transaction Log</p></a></li>
 				<!-- <li class="border"><a href="#"><img src="<?php echo base_url();?>asset/logged-in/images/Vertesac Website_Merchant Profile-13.png" alt="Vertesac Website_Merchant Profile-10" class="menu-merchant-img"><br><p class="menu-merchant-title">Member</p></a></li> -->
 			</ul>
 		</div>

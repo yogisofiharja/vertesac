@@ -22,7 +22,7 @@ $end_time = date("m/d/Y",strtotime($promo[0]->end_time));
 		<div id="profile-setting-left">
 			
 			<div id="box-img-profile">
-				<img src="<?php echo base_url();?>media/images/store/promo/<?php echo $promo[0]->photo;?>">
+				<img src="<?php echo base_url();?>timthumb/timthumb.php?src=media/images/store/promo/<?php echo $promo[0]->photo;?>&w=210&h=200">
 			</div>
 
 			<div id='file_browse_wrapper_profile'>
