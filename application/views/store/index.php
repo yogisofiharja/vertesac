@@ -30,7 +30,12 @@ include 'header.php';
 		</div>
 		<div id="info-right">
 			<h2 class="title-merchant"><?php echo $profile[0]->name;?></h2>
-			<p class="description-merchant"><?php echo $profile[0]->description;?></p>
+			
+
+			<p class="description-merchant">
+				<h class="title-merchant" style="font-size:16px;margin-top:20px;">Available eggs : <?php echo $profile[0]->egg;?> Eggs</h><br/><br/>
+				<?php echo $profile[0]->description;?>
+			</p>
 			<a href="#" class="link"><button>Download QRCODE</button></a>
 			<hr>
 			<p class="address-merchant"><?php echo $profile[0]->address;?></p> 

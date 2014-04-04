@@ -107,7 +107,7 @@ jQuery(document).ready(function ($) {
 				}
 				?>
 			</form>
-			<?php echo $_SERVER["HTTP_HOST"];?>
+			<!-- <?php echo $_SERVER["HTTP_HOST"];?> -->
 			<h1>-welcome-</h1>
 			<h2>Vertesac in a nutshell</h2>
 			<p>Vertesac is a convergence pruduct from fashion and information technology.
