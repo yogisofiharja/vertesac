@@ -42,6 +42,7 @@ $route['default_controller'] = "welcome";
 $route['store'] = "store/profile";
 $route['store/promo'] = "store/promo/lists";
 $route['store/gallery'] = "store/gallery/lists";
+$route['store/transaction'] = "store/transaction/lists";
 $route['admin/bag'] = "admin/bag/lists";
 $route['admin/transaction'] = "admin/transaction/lists";
 $route['404_override'] = '';

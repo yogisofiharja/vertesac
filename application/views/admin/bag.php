@@ -27,7 +27,7 @@ echo "</pre>";*/
 			?>
 			<div id="box-photo">
 				<div id="box-img">
-					<img src="<?php echo base_url();?>asset/photo/bag/main/<?php echo $bag->photo;?>"><br>
+					<img src="<?php echo base_url();?>timthumb/timthumb.php?src=media/images/bag/main/<?php echo $bag->photo;?>&w=130&h=120"><br>
 					<button id="vis-btn-promo" onclick="location.href='<?php echo base_url().'admin/bag/edit_bag/'.$bag->bag_type_id;?>'">Edit Photo</button>
 				</div>
 				<a href="<?php echo base_url();?>admin/bag/delete/<?php echo $bag->bag_type_id;?>"><img src="<?php echo base_url();?>asset/logged-in/images/delete.png" width="12" height="12" style="margin-left: 230px; margin-top:8px; cursor: pointer; position:absolute;" onClick="return confirm('Delete This Bag?')" title="Delete"></a>

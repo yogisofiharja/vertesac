@@ -58,7 +58,7 @@ class Bag extends CI_Controller {
 		// print_r($bag->bag_type_id);exit;
 		$nomor = rand(0,500);
 		//upload photo
-		$config['upload_path'] = './asset/photo/bag/gallery/';
+		$config['upload_path'] = './media/images/bag/gallery/';
 		$config['allowed_types'] = 'gif|jpg|png|jpeg';
 		$config['file_name'] = 'gallery_photo_'.$bag->bag_type_id.'_'.$nomor;
 		$config['max_size']='50000';
@@ -82,7 +82,7 @@ class Bag extends CI_Controller {
 		$data=array();
 		$data['photo'] = $bag->get_single_gallery($photo_id);
 		// print_r($data['photo']->photo);exit;
-		exec("rm ./asset/photo/bag/gallery/".$data['photo']->photo);
+		exec("rm ./media/images/bag/gallery/".$data['photo']->photo);
 		$bag->delete_gallery($photo_id);
 		redirect('admin/bag/gallery/'.$bag_type_id);
 	}
@@ -102,7 +102,7 @@ class Bag extends CI_Controller {
 			$bag->bag_type_id = $bag_type_id->bag_type_id + 1;
 		}
 		//upload photo
-		$config['upload_path'] = './asset/photo/bag/main/';
+		$config['upload_path'] = './media/images/bag/main/';
 		$config['allowed_types'] = 'gif|jpg|png|jpeg';
 		$config['file_name'] = 'photo_'.$bag->bag_type_id;
 		$config['max_size']='50000';
@@ -129,8 +129,10 @@ class Bag extends CI_Controller {
 		// $bag->update($bag_type_id);
 		if(isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])){
 			// echo "foto ada";exit;
-			exec("rm ./asset/photo/bag/main/".$this->input->post('photo'));
-			$config['upload_path'] = './asset/photo/bag/main/';
+			if($this->input->post('photo')!=""){
+				exec("rm ./media/images/bag/main/".$this->input->post('photo'));
+			}
+			$config['upload_path'] = './media/images/bag/main/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$config['file_name'] = 'photo_'.$bag_type_id;
 			$config['max_size']='50000';

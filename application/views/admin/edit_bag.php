@@ -23,7 +23,7 @@ echo "</pre>";*/
 				<?php
 					if($bag->photo!=''){
 						?>
-					<img src="<?php echo base_url();?>asset/photo/bag/main/<?php echo $bag->photo;?>" />
+					<img src="<?php echo base_url();?>timthumb/timthumb.php?src=media/images/bag/main/<?php echo $bag->photo;?>&w=210&h=200" />
 					<input type="hidden" name="photo" value="<?php echo $bag->photo;?>">
 						<?php
 					}else{
